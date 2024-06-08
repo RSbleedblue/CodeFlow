@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.border-gradient {
+    border-style: solid;
+    border-width: 2px;
+    /* You can specify the gradient for the border */
+    border-image: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255));
+    padding: 14px;
+}
+
