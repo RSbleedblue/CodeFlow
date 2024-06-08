@@ -1,12 +1,29 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+const withMT = require("@material-tailwind/react/utils/withMT");
+module.exports = withMT({
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        deepBlue: {
+          100: "#071B34",
+          200: '#022857',
+          300: '#03316A'
+        },
+        codeFlow: '#FF156D',
+      }
+    },
+    fontFamily: {
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
+    },
+    variants: {
+      extend: {
+        borderColor: ['hover'],
+        scale: ['hover'],
+      },
+    },
   },
   plugins: [],
-}
-
+})
