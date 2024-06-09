@@ -15,8 +15,8 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/user" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
-            <Route path="coding" element={<ProtectedRoute><CodingHome /></ProtectedRoute>} />
+          <Route path="/user/*" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
+            <Route path="coding" element={<CodingHome />} />
             {/* Add more user-related routes here */}
           </Route>
         </Routes>
