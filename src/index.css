@@ -19,3 +19,63 @@
     animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #f893ba;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.monaco-menu {
+    background-color: var(--darker);
+    color: var(--textColor);
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    position: fixed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.monaco-menu .monaco-menu {
+    margin-top: -35px;
+    /* Moves the submenu up by 35px */
+}
+
+.monaco-menu .action-item {
+    height: 30px;
+    position: relative;
+}
+
+.monaco-menu .action-item:last-child {
+    margin-bottom: -4px;
+}
+
+.monaco-menu .action-item:first-child {
+    margin-top: -4px;
+
+}
+
+.monaco-menu .action-item:hover {
+    background-color: var(--hover);
+}
+
+/* this is the dividers */
+.monaco-menu .disabled {
+    max-height: 1px;
+    background-color: var(--borderColor);
+    cursor: default;
+}

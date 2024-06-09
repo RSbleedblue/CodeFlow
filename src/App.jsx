@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './Components/Home'
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import './App.css';
+import Home from './Components/Home';
+import CodingHome from './Components/Coding/CodingHome';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import ProtectedRoute from './Components/utils/ProtectedRoute';
+import UserDashboard from './Components/User/UserDashboard';
 
 function App() {
   return (
     <>
-      <Home/>
+      <Router>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
+            <Route path="coding" element={<ProtectedRoute><CodingHome /></ProtectedRoute>} />
+            {/* Add more user-related routes here */}
+          </Route>
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

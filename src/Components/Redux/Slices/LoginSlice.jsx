@@ -1,20 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getSessionStorage = () => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+    return isLoggedIn !== null ? isLoggedIn === "true" : false;
+};
+
 const LoginSlice = createSlice({
     name: 'auth',
     initialState: {
-        isLoggedIn: false,
-        loginSelected : false,
+        isLoggedIn: getSessionStorage(),
+        loginSelected: false,
     },
     reducers: {
-        loginSuccess: (state, action) => {
-            state.isLoggedIn = action.payload;
+        loginSuccess: (state) => {
+            state.isLoggedIn = true;
+            sessionStorage.setItem("isLoggedIn", true);
         },
-        loginSelected: (state)=>{
+        logoutSuccess: (state) => {
+            state.isLoggedIn = false;
+            sessionStorage.setItem("isLoggedIn", false);
+        },
+        loginSelected: (state) => {
             state.loginSelected = !state.loginSelected;
+        },
+        signUpSelected: (state) => {
+            state.signUpSelected = !state.signUpSelected;
         }
     },
 });
 
-export const { loginSuccess, loginSelected } = LoginSlice.actions;
+export const { loginSuccess, logoutSuccess, loginSelected, signUpSelected } = LoginSlice.actions;
 export default LoginSlice.reducer;

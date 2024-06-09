@@ -1,7 +1,13 @@
 import { IoIosSettings } from "react-icons/io";
 import { CiCircleChevDown } from "react-icons/ci";
+import { useDispatch } from "react-redux";
+import { loginSelected } from "../Redux/Slices/LoginSlice";
 const Landing = () => {
-    
+    const dispatch = useDispatch();
+    const handleLogin = () => {
+        console.log("selected");
+        dispatch(loginSelected());
+    }
 
     return (
         <>
@@ -28,7 +34,7 @@ const Landing = () => {
                     <div>
                         <p className="text-gray-400 text-sm text-justify"> CodeFlow revolutionizes the front-end development experience, offering a social environment for designers and developers. Create and deploy websites, showcase your brilliance, develop and debug test cases, and ignite your inspiration. </p>
                     </div>
-                    <button className="bg-gray-800 p-2 rounded-lg hover:scale-105 transition-all text-white w-[40%]">Sign Up For free</button>
+                    <button className="bg-gray-800 p-2 rounded-lg hover:scale-105 transition-all text-white w-[40%]" onClick={handleLogin}>Try it For free</button>
                 </div>
                 <div className="flex flex-col ">
                     <div className="bg-gray-900 z-10 p-4 h-[400px] w-[500px] rounded-lg mt-16 absolute">

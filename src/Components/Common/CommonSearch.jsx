@@ -1,15 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess,loginSelected } from "../Redux/Slices/LoginSlice";
+import { useDispatch } from "react-redux";
+import { loginSelected, signUpSelected } from "../Redux/Slices/LoginSlice";
 
 const Search = () => {
     const [search, setSearch] = useState("");
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector((state) => state.auth.loginSelected);
+
     const handleLogin = () => {
         dispatch(loginSelected());
     }
+
+    const handleSignUp = () => {
+        dispatch(signUpSelected());
+    }
+
     return (
         <>
             <div className="w-full text-white p-6 bg-black flex items-center border border-gray-900 rounded-lg justify-between">
@@ -21,7 +26,7 @@ const Search = () => {
                     <button className="bg-codeFlow p-2 rounded-lg hover:scale-105 transition-all" onClick={handleLogin}>
                         Login
                     </button>
-                    <button className="bg-gray-800 p-2 rounded-lg hover:scale-105 transition-all">Sign Up</button>
+                    {/* <button className="bg-gray-800 p-2 rounded-lg hover:scale-105 transition-all" onClick={handleSignUp}>Sign Up</button> */}
                 </div>
             </div>
         </>
