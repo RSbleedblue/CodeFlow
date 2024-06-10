@@ -13,6 +13,7 @@ module.exports = withMT({
           300: '#03316A'
         },
         codeFlow: '#FF156D',
+        codePlace : "#1e1e1e",
       }
     },
     fontFamily: {
