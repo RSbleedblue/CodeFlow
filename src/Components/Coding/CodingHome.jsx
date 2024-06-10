@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, TextField } from '@mui/material';
 import { FaHtml5, FaCss3Alt, FaChevronDown } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
 import Codeflow from '../../assets/Codeflow.png';
-import  Monaco  from '@monaco-editor/react';
+import Monaco from '@monaco-editor/react';
 
 const CodingHome = () => {
   const [documentName, setDocumentName] = useState("");
@@ -34,8 +35,8 @@ const CodingHome = () => {
 
   return (
     <>
-      <div className='text-white w-full flex gap-2 flex-col p-2 items-start'>
-        <div className='p-2 flex'>
+      <div className='text-white w-[90%] flex gap-2 flex-col p-2 items-start mt-2'>
+        <div className='p-2 flex justify-between w-[80%]'>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 2 }}>
             <img src={Codeflow} className='w-14 h-10' alt="Codeflow" />
             <TextField
@@ -54,10 +55,14 @@ const CodingHome = () => {
               }}
             />
           </Box>
+          <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400'>
+            <FaSave/>
+            <button className=''>Save</button>
+          </div>
         </div>
-        <div className='flex gap-2 rounded-lg h-[55%] p-2 justify-center w-full'>
+        <div className='flex gap-2 rounded-lg h-[55%] p-2 items-start w-full'>
           {/* HTML */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative'>
+          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center'>
               <div className='flex items-center gap-2'>
                 <FaHtml5 className='text-3xl' />
@@ -77,7 +82,7 @@ const CodingHome = () => {
             />
           </div>
           {/* CSS */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative'>
+          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center'>
               <div className='flex items-center gap-2'>
                 <FaCss3Alt className='text-3xl' />
@@ -97,7 +102,7 @@ const CodingHome = () => {
             />
           </div>
           {/* JS */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative'>
+          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center'>
               <div className='flex items-center gap-2'>
                 <IoLogoJavascript className='text-3xl' />
@@ -119,7 +124,7 @@ const CodingHome = () => {
           </div>
         </div>
         <div className='w-full p-4 rounded-lg h-[40%] bg-black text-white'>
-          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} frameBorder="0" width="100%" height="100%" />
+          <iframe ref={iframeRef} srcDoc={generateSrcDoc()}  width="100%" height="100%" />
         </div>
       </div>
     </>

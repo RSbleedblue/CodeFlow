@@ -14,7 +14,7 @@ const Menu = () => {
             })
             return;
         }
-        navigate("/user/Coding");
+        navigate("/user/web");
         
     }
     return (
