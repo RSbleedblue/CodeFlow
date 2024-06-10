@@ -31,10 +31,12 @@ const UserCoding = () => {
         }
         setIsLoading(true);
         const result = await executeCode(language,codeData);
+        setIsLoading(false);
         if(result.run.stderr){
             setIsError(true);
+        } else {
+            setIsError(false);
         }
-        setIsLoading(false);
         setOutput(result.run.output);
     };
 
@@ -101,7 +103,7 @@ const UserCoding = () => {
             {/* CodeArea */}
             <div className="flex gap-2 w-full h-full">
                 {/* Input */}
-                <div className="w-[75%] flex flex-col ">
+                <div className="w-[65%] flex flex-col ">
                     <div className="w-full flex items-center gap-2 bg-black rounded-lg p-4 mb-2 text-gray-500 justify-between ">
                         <div className="flex items-center gap-2">
                             <FaFileCode className="text-2xl" />
@@ -131,14 +133,18 @@ const UserCoding = () => {
                     />
                 </div>
                 {/* Output */}
-                <div className="w-[22%] flex flex-col ">
+                <div className="w-[35%] flex flex-col ">
                     <div className="w-full flex items-center gap-2 bg-black rounded-lg p-4 mb-2 text-gray-500 ">
                         <AiFillCode className="text-2xl" />
                         <p className="text-sm">Output</p>
                     </div>
                     <div className="h-full bg-codePlace rounded-lg">
                         {
-                            output ? (<p className={`text-gray-500 text-sm p-3 ${isError ? "text-codeFlow":""}`}>{output}</p>) : (<p className="text-gray-600 text-sm p-3">Run your code to see the output</p>)
+                            output ? (
+                                <p className={`text-sm p-3 ${isError ? "text-red-600" : "text-gray-500"}`}>{output}</p>
+                            ) : (
+                                <p className="text-gray-600 text-sm p-3">Run your code to see the output</p>
+                            )
                         }
                     </div>
                 </div>

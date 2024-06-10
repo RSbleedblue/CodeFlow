@@ -60,11 +60,11 @@ const CodingHome = () => {
             <button className=''>Save</button>
           </div>
         </div>
-        <div className='flex gap-2 rounded-lg h-[55%] p-2 items-start w-full'>
+        <div className='flex gap-2 rounded-lg h-[55%] w-full'>
           {/* HTML */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
-            <div className='flex w-full justify-between items-center'>
-              <div className='flex items-center gap-2'>
+          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+            <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
+              <div className='flex items-center gap-2 '>
                 <FaHtml5 className='text-3xl' />
                 <p className='text-sm'>HTML</p>
               </div>
@@ -72,7 +72,6 @@ const CodingHome = () => {
                 <FaChevronDown />
               </div>
             </div>
-            <hr className='opacity-20'></hr>
             <Monaco
               height="100%"
               theme="vs-dark"
@@ -82,8 +81,8 @@ const CodingHome = () => {
             />
           </div>
           {/* CSS */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
-            <div className='flex w-full justify-between items-center'>
+          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+            <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
               <div className='flex items-center gap-2'>
                 <FaCss3Alt className='text-3xl' />
                 <p className='text-sm'>CSS</p>
@@ -92,7 +91,6 @@ const CodingHome = () => {
                 <FaChevronDown />
               </div>
             </div>
-            <hr className='opacity-20'></hr>
             <Monaco
               height="100%"
               theme="vs-dark"
@@ -102,8 +100,8 @@ const CodingHome = () => {
             />
           </div>
           {/* JS */}
-          <div className='flex flex-col w-[33%] bg-black rounded-lg p-4 text-gray-400 gap-2 relative h-full'>
-            <div className='flex w-full justify-between items-center'>
+          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+            <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
               <div className='flex items-center gap-2'>
                 <IoLogoJavascript className='text-3xl' />
                 <p className='text-sm'>JS</p>
@@ -112,7 +110,6 @@ const CodingHome = () => {
                 <FaChevronDown />
               </div>
             </div>
-            <hr className='opacity-20'></hr>
             <Monaco
               height="100%"
               theme="vs-dark"

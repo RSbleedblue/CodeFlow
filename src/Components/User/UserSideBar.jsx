@@ -7,12 +7,16 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaHtml5 } from "react-icons/fa";
 import { changeOption } from '../Redux/Slices/UserSlice';
+import { logoutSuccess } from '../Redux/Slices/LoginSlice';
 
 const UserMenu = () => {
     const dispatch = useDispatch();
     const selectedOption = useSelector((state) => state.user.selectedOption);
     const handleSelection = (str) => {
         dispatch(changeOption(str));
+    }
+    const handleLogOut = () => {
+        dispatch(logoutSuccess());
     }
 
     return (
@@ -35,7 +39,7 @@ const UserMenu = () => {
                 </Link>
             </div>
             <div>
-                <RiLogoutCircleLine className="text-gray-600 text-2xl hover:text-codeFlow cursor-pointer" />
+                <RiLogoutCircleLine className="text-gray-600 text-2xl hover:text-codeFlow cursor-pointer" onClick={handleLogOut} />
             </div>
         </div>
     );
