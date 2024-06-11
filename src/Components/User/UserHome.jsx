@@ -7,23 +7,7 @@ import { FaProjectDiagram } from "react-icons/fa";
 import {db} from '../utils/Firebase/firebaseConfig';
 import { collection, getDocs } from "firebase/firestore";
 import ProjectSub from "./subs/ProjectSub";
-const stats = [
-    {
-        icon: <FaHtml5 className="text-xl" />,
-        title: "Projects",
-        value: 24,
-    },
-    {
-        icon: <FaLaptopCode className="text-xl" />,
-        title: "Programs",
-        value: 291,
-    },
-    {
-        icon: <FaBusinessTime className="text-xl" />,
-        title: "Time Spent",
-        value: "14 hrs",
-    }
-]
+
 
 const UserHome = () => {
     const user = sessionStorage.getItem("email");
@@ -53,7 +37,26 @@ const UserHome = () => {
             console.log(e);
         }
     }
-
+    const handleDelete = (Projectid)=> {
+        setProjects(prevProjects => prevProjects.filter(project => project.id !== Projectid));
+    }
+    const stats = [
+        {
+            icon: <FaHtml5 className="text-xl" />,
+            title: "Projects",
+            value: projects.length,
+        },
+        {
+            icon: <FaLaptopCode className="text-xl" />,
+            title: "Programs",
+            value: 291,
+        },
+        {
+            icon: <FaBusinessTime className="text-xl" />,
+            title: "Time Spent",
+            value: "14 hrs",
+        }
+    ]
     return (
         <>
             <div className='text-white w-full flex gap-2 flex-col p-2 items-start mt-2 '>
@@ -68,18 +71,18 @@ const UserHome = () => {
                 {/* Stats */}
                 <div className="w-[80%] flex gap-2">
                     {stats.map((ele, idx) => (
-                        <StatsSub key={idx} {...ele} />
+                        <StatsSub key={idx} {...ele}  />
                     ))}
                 </div>
                 {/* Users Work */}
                 <div className="w-full flex gap-2">
-                    <div className="flex flex-col p-4 rounded-lg bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
+                    <div className="flex flex-col p-4 rounded-lg border border-solid p-1 border-opacity-10 border-gray-400 bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
                         <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram/></span>Projects</p>
                         {/* This part will go in loop */}
                         <div className="flex flex-wrap gap-10 items-center ">
                             {
                                 projects.map((ele,idx) => (
-                                    <ProjectSub data={ele} key={idx}/>
+                                    <ProjectSub data={ele} key={idx} onDelete={handleDelete}/>
                                 ))
                             }
                         </div>

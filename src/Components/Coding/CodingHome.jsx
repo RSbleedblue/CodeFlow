@@ -6,25 +6,36 @@ import Codeflow from '../../assets/Codeflow.png';
 import Monaco from '@monaco-editor/react';
 import { collection, addDoc, doc } from 'firebase/firestore';
 import { db } from '../utils/Firebase/firebaseConfig';
-import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import codeflowIcon from '../../assets/Codeflow.png'
+import codeflowIcon from '../../assets/Codeflow.png';
+import { BsFillFileEarmarkCodeFill } from "react-icons/bs";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CodingHome = () => {
-  const [documentName, setDocumentName] = useState(()=>sessionStorage.getItem("DocumentName") || "");
+  const [documentName, setDocumentName] = useState(() => sessionStorage.getItem("DocumentName") || "");
   const [HTMLcode, setHTMLCode] = useState(() => sessionStorage.getItem('HTMLcode') || "");
   const [CSScode, setCSSCode] = useState(() => sessionStorage.getItem('CSScode') || "");
   const [JScode, setJSCode] = useState(() => sessionStorage.getItem('JScode') || "");
   const iframeRef = useRef(null);
   const userEmail = sessionStorage.getItem("email");
-  
+
   useEffect(() => {
     sessionStorage.setItem('HTMLcode', HTMLcode);
     sessionStorage.setItem('CSScode', CSScode);
     sessionStorage.setItem('JScode', JScode);
-    sessionStorage.setItem('DocumentName',documentName);
-  }, [HTMLcode, CSScode, JScode,documentName]);
+    sessionStorage.setItem('DocumentName', documentName);
+  }, [HTMLcode, CSScode, JScode, documentName]);
+
+  const handleNew = () => {
+    setHTMLCode('');
+    setCSSCode('');
+    setJSCode('');
+    setDocumentName('Untitled');
+    sessionStorage.setItem('HTMLcode', '');
+    sessionStorage.setItem('CSScode', '');
+    sessionStorage.setItem('JScode', '');
+    sessionStorage.setItem('DocumentName', 'Untitled');
+  }
 
   const generateSrcDoc = () => {
     return `
@@ -33,6 +44,14 @@ const CodingHome = () => {
         <style>
           body {
             color: #ffffff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Disable the scrollbar */
+          }
+          /* Hide the scrollbar */
+          ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
           }
           ${CSScode}
         </style>
@@ -42,15 +61,15 @@ const CodingHome = () => {
   };
 
   const handleSave = async () => {
-    if(!documentName){
-      toast.dark("Title missing",{
+    if (!documentName) {
+      toast.dark("Title missing", {
         icon: <img src={codeflowIcon}></img>,
         autoClose: 1000
       });
       return;
     }
-    if(HTMLcode.length===0){
-      toast.dark("Create a Document first",{
+    if (HTMLcode.length === 0) {
+      toast.dark("Create a Document first", {
         icon: <img src={codeflowIcon}></img>,
         autoClose: 1000
       });
@@ -59,7 +78,7 @@ const CodingHome = () => {
     const webDevCode = generateSrcDoc();
     const userDocRef = doc(db, "WebDev", userEmail);
     const filesCollectionRef = collection(userDocRef, "files");
-    
+
     toast.promise(
       addDoc(filesCollectionRef, {
         documentName,
@@ -83,11 +102,11 @@ const CodingHome = () => {
       iframeRef.current.srcdoc = generateSrcDoc();
     }
   }, [HTMLcode, CSScode, JScode]);
- 
+
   return (
     <>
       <div className='text-white w-full flex gap-2 flex-col p-2 items-start mt-2 h-screen'>
-        <div className='p-2 flex justify-between w-[80%]'>
+        <div className='p-2 flex justify-between w-[80%] items-center'>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 2 }}>
             <img src={Codeflow} className='w-14 h-10' alt="Codeflow" />
             <TextField
@@ -106,9 +125,15 @@ const CodingHome = () => {
               }}
             />
           </Box>
-          <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleSave}>
-            <FaSave />
-            <button className=''>Save</button>
+          <div className='flex gap-2'>
+            <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleNew}>
+              <BsFillFileEarmarkCodeFill />
+              <button className=''>New</button>
+            </div>
+            <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleSave}>
+              <FaSave />
+              <button className=''>Save</button>
+            </div>
           </div>
         </div>
         <div className='flex gap-2 rounded-lg h-[55%] w-full'>
@@ -172,7 +197,7 @@ const CodingHome = () => {
           </div>
         </div>
         <div className='w-full p-4 rounded-lg h-[40%] bg-black text-white'>
-          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" />
+          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" style={{ objectFit: "contain" }} />
         </div>
       </div>
       <ToastContainer stacked />
