@@ -17,7 +17,7 @@ const CodingHome = () => {
   const [CSScode, setCSSCode] = useState(() => sessionStorage.getItem('CSScode') || "");
   const [JScode, setJSCode] = useState(() => sessionStorage.getItem('JScode') || "");
   const iframeRef = useRef(null);
-  const userEmail = useSelector((state) => state.user.email);
+  const userEmail = sessionStorage.getItem("email");
   
   useEffect(() => {
     sessionStorage.setItem('HTMLcode', HTMLcode);
