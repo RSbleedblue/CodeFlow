@@ -63,14 +63,14 @@ const CodingHome = () => {
   const handleSave = async () => {
     if (!documentName) {
       toast.dark("Title missing", {
-        icon: <img src={codeflowIcon}></img>,
+        icon: <img src={codeflowIcon} alt="icon" />,
         autoClose: 1000
       });
       return;
     }
     if (HTMLcode.length === 0) {
       toast.dark("Create a Document first", {
-        icon: <img src={codeflowIcon}></img>,
+        icon: <img src={codeflowIcon} alt="icon" />,
         autoClose: 1000
       });
       return;
@@ -86,11 +86,24 @@ const CodingHome = () => {
         timeStamp: new Date(),
       }),
       {
-        pending: "Saving...",
-        success: "File Saved!",
-        error: "Error Saving the document",
-        theme: "dark",
-        icon: <img src={codeflowIcon} alt="icon" />
+        pending: {
+          render: "Saving...",
+          theme: "dark",
+          icon: <img src={codeflowIcon} alt="icon" />,
+          autoClose:1000
+        },
+        success: {
+          render: "File Saved!",
+          theme: "dark",
+          icon: <img src={codeflowIcon} alt="icon" />,
+          autoClose:1000
+        },
+        error: {
+          render: "Error Saving the document",
+          theme: "dark",
+          icon: <img src={codeflowIcon} alt="icon" />,
+          autoClose:1000
+        }
       }
     );
 

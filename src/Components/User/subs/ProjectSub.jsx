@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { db } from "../../utils/Firebase/firebaseConfig";
 import { FaSpinner, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import codeFlow from '../../../assets/Codeflow.png'
 
 const ProjectSub = ({ data, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -23,19 +24,24 @@ const ProjectSub = ({ data, onDelete }) => {
                     render() {
                         return "Deleting...";
                     },
-                    icon: <FaSpinner className="animate-spin" />,
+                    icon: <img src={codeFlow} />,
+                    theme:"dark",
+                    autoClose:3000,
                 },
                 success: {
                     render() {
-                        return "File successfully deleted 👌";
+                        return "File successfully deleted ";
                     },
-                    icon: <FaCheckCircle />,
+                    icon: <img src={codeFlow} />,
+                    theme:"dark",
+                    autoClose:1000,
                 },
                 error: {
                     render() {
-                        return "Error deleting the file 🤯";
+                        return "Error deleting the file ";
                     },
-                    icon: <FaExclamationCircle />,
+                    icon: <img src={codeFlow} />,
+                    theme:"dark"
                 },
             }
         ).finally(() => {
