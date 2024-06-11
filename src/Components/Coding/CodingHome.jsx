@@ -12,12 +12,19 @@ import codeflowIcon from '../../assets/Codeflow.png'
 import 'react-toastify/dist/ReactToastify.css';
 
 const CodingHome = () => {
-  const [documentName, setDocumentName] = useState("");
-  const [HTMLcode, setHTMLCode] = useState("");
-  const [CSScode, setCSSCode] = useState("");
-  const [JScode, setJSCode] = useState("");
+  const [documentName, setDocumentName] = useState(()=>sessionStorage.getItem("DocumentName") || "");
+  const [HTMLcode, setHTMLCode] = useState(() => sessionStorage.getItem('HTMLcode') || "");
+  const [CSScode, setCSSCode] = useState(() => sessionStorage.getItem('CSScode') || "");
+  const [JScode, setJSCode] = useState(() => sessionStorage.getItem('JScode') || "");
   const iframeRef = useRef(null);
   const userEmail = useSelector((state) => state.user.email);
+  
+  useEffect(() => {
+    sessionStorage.setItem('HTMLcode', HTMLcode);
+    sessionStorage.setItem('CSScode', CSScode);
+    sessionStorage.setItem('JScode', JScode);
+    sessionStorage.setItem('DocumentName',documentName);
+  }, [HTMLcode, CSScode, JScode,documentName]);
 
   const generateSrcDoc = () => {
     return `
@@ -35,6 +42,20 @@ const CodingHome = () => {
   };
 
   const handleSave = async () => {
+    if(!documentName){
+      toast.dark("Title missing",{
+        icon: <img src={codeflowIcon}></img>,
+        autoClose: 1000
+      });
+      return;
+    }
+    if(HTMLcode.length===0){
+      toast.dark("Create a Document first",{
+        icon: <img src={codeflowIcon}></img>,
+        autoClose: 1000
+      });
+      return;
+    }
     const webDevCode = generateSrcDoc();
     const userDocRef = doc(db, "WebDev", userEmail);
     const filesCollectionRef = collection(userDocRef, "files");
@@ -49,9 +70,8 @@ const CodingHome = () => {
         pending: "Saving...",
         success: "File Saved!",
         error: "Error Saving the document",
-      },{
-        theme:"dark",
-        icon:<img src={codeflowIcon}></img>
+        theme: "dark",
+        icon: <img src={codeflowIcon} alt="icon" />
       }
     );
 
@@ -63,10 +83,10 @@ const CodingHome = () => {
       iframeRef.current.srcdoc = generateSrcDoc();
     }
   }, [HTMLcode, CSScode, JScode]);
-
+ 
   return (
     <>
-      <div className='text-white w-[90%] flex gap-2 flex-col p-2 items-start mt-2'>
+      <div className='text-white w-full flex gap-2 flex-col p-2 items-start mt-2 h-screen'>
         <div className='p-2 flex justify-between w-[80%]'>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 2 }}>
             <img src={Codeflow} className='w-14 h-10' alt="Codeflow" />

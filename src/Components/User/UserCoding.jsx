@@ -43,7 +43,7 @@ const UserCoding = () => {
     };
 
     return (
-        <div className='text-white w-[90%] flex gap-2 flex-col p-2 items-start mt-2 '>
+        <div className='text-white w-full flex gap-2 flex-col p-2 items-start mt-2 h-screen'>
             {/* Header */}
             <div className='p-2 flex justify-between w-[80%] items-center'>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 2 }}>

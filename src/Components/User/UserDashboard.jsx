@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import Menu from '../Common/CommonMenu';
+import { Outlet } from 'react-router-dom';
 import PreLoader from '../utils/PreLoader';
 import UserMenu from './UserSideBar';
 
@@ -12,13 +11,16 @@ const UserDashboard = () => {
             setIsLoaded(false);
         }, 2000);
     }, []);
+
     return (
         <>
             {
                 isLoaded ? <PreLoader /> :
-                    <div className='w-full flex gap-4'>
+                    <div className='flex gap-10'>
                         <UserMenu />
-                        <Outlet />
+                        <div className='ml-[9%] w-full'>
+                            <Outlet />
+                        </div>
                     </div>
             }
         </>
