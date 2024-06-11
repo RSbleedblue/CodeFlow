@@ -56,9 +56,9 @@ const CodingHome = () => {
             />
           </Box>
           <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400'>
-            <FaSave/>
-            <button className=''>Save</button>
-          </div>
+                    <FaSave />
+                    <button className=''>Save</button>
+                </div>
         </div>
         <div className='flex gap-2 rounded-lg h-[55%] w-full'>
           {/* HTML */}

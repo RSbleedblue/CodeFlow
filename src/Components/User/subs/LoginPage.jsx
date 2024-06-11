@@ -8,6 +8,7 @@ import { auth } from "../../utils/Firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../Redux/Slices/LoginSlice";
+import { changeOption } from "../../Redux/Slices/UserSlice";
 
 const LoginPage = () => {
     const [userName, setUserName] = useState("");
@@ -36,6 +37,7 @@ const LoginPage = () => {
                         theme: 'dark',
                     });
                     dispatch(loginSuccess(true));
+                    dispatch(changeOption("home"));
                     navigate("/user");
                 })
                 .catch((error) => {
