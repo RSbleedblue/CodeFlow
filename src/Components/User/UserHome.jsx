@@ -1,11 +1,12 @@
 import { FaBusinessTime, FaCode, FaHtml5, FaLaptopCode, FaPencilAlt, FaShare } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Codeflow from '../../assets/Codeflow.png'
 import StatsSub from "./subs/Stats";
-import { FaEye } from "react-icons/fa";
 import { FaProjectDiagram } from "react-icons/fa";
-
+import {db} from '../utils/Firebase/firebaseConfig';
+import { collection, getDocs } from "firebase/firestore";
+import ProjectSub from "./subs/ProjectSub";
 const stats = [
     {
         icon: <FaHtml5 className="text-xl" />,
@@ -27,14 +28,30 @@ const stats = [
 const UserHome = () => {
     const user = useSelector((state) => state.user.email);
     const [userName, setUserName] = useState("");
-
+    const [projects, setProjects] = useState([]);
     useEffect(() => {
         getUserName();
-    }, []);
-
+        fetchProject(user);
+    }, [user]);
     const getUserName = () => {
         const split = user.split("@");
         setUserName(split[0].charAt(0).toUpperCase());
+    }
+    const fetchProject = async(user)=>{
+        try{
+            console.log(user);
+            const userDocRef = collection(db,"WebDev",user, "files");
+
+            const query = await getDocs(userDocRef);
+            const projectsLists = query.docs.map(doc=>(console.log(doc),{
+                id:doc.id,
+                ...doc.data()
+            }));
+            setProjects(projectsLists);
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 
     return (
@@ -59,16 +76,12 @@ const UserHome = () => {
                     <div className="flex flex-col p-4 rounded-lg bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
                         <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram/></span>Projects</p>
                         {/* This part will go in loop */}
-                        <div className="flex flex-wrap gap-4 items-start justify-center">
-                            <div className="flex flex-col rounded-2xl hover:scale-105 gap-4 hover:shadow-lg transform transition-all w-[30%]">
-                                <p className="text-xl text-gray-400 bg-black p-3 rounded-lg">Title: <span className="text-lg text-codeFlow">PreLoader</span></p>
-                                <iframe srcDoc={`<html> <body><!DOCTYPE html> <h1 class="styling">All the Best</h1></body> <style> body { color: #ffffff; } .styling{ background-color:palevioletred; } </style> <script></script> </html>`} />
-                                <div className="flex gap-2 bg-black p-4 rounded-lg">
-                                    <button className="text-xl text-gray-400 hover:text-white"><FaEye /></button>
-                                    <button className="text-xl text-gray-400 hover:text-white"><FaCode /></button>
-                                    <button className="text-xl text-gray-400 hover:text-white"><FaShare /></button>
-                                </div>
-                            </div>
+                        <div className="flex flex-wrap gap-10 items-center ">
+                            {
+                                projects.map((ele,idx) => (
+                                    <ProjectSub data={ele} key={idx}/>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
