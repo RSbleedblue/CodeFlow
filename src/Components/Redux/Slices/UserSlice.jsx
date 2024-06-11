@@ -12,7 +12,8 @@ const UserSlice = createSlice ({
             state.selectedOption = action.payload;
         },
         changeEmail : (state,action) => {
-            state.email = action.payload;
+            sessionStorage.setItem("email",action.payload);
+            state.email = sessionStorage.getItem("email");
         }
     }
 })

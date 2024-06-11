@@ -26,7 +26,7 @@ const stats = [
 ]
 
 const UserHome = () => {
-    const user = useSelector((state) => state.user.email);
+    const user = sessionStorage.getItem("email");
     const [userName, setUserName] = useState("");
     const [projects, setProjects] = useState([]);
     useEffect(() => {
