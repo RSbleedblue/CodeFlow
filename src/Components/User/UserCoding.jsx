@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import codeFlow from '../../assets/Codeflow.png'
 import { executeCode } from '../utils/CompilerAPI';
 import ClipLoader from "react-spinners/ClipLoader";
+import { useSelector } from 'react-redux';
 
 const UserCoding = () => {
     const [documentName, setDocumentName] = useState("");
@@ -17,6 +18,7 @@ const UserCoding = () => {
     const [output, setOutput] = useState('');
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const userEmail = useSelector((state) => state.user.email)
 
     const handleChange = (event) => {
         setLanguage(event.target.value);

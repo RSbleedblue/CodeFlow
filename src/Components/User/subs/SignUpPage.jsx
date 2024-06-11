@@ -6,11 +6,10 @@ import codeFlow from '../../../assets/Codeflow.png';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const SignUpPage = ({ onSuccessfulSignUp }) => {
+const SignUpPage = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-
     const handleSignUp = async (e) => {
         e.preventDefault();
         if (!userName || !password || !email) {
@@ -19,10 +18,8 @@ const SignUpPage = ({ onSuccessfulSignUp }) => {
         }
 
         toast.promise(
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    onSuccessfulSignUp(); 
-                }),
+            createUserWithEmailAndPassword(auth, email, password),
+            
             {
                 pending: {
                     render() {
@@ -32,6 +29,7 @@ const SignUpPage = ({ onSuccessfulSignUp }) => {
                     theme: 'dark'
                 },
                 success: {
+                    
                     render({ data }) {
                         return "Successfully registered!";
                     },
@@ -43,7 +41,7 @@ const SignUpPage = ({ onSuccessfulSignUp }) => {
                         return `Error: ${data.message}`;
                     }
                 }
-            }
+            },
         );
     };
 

@@ -1,10 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, TextField } from '@mui/material';
-import { FaHtml5, FaCss3Alt, FaChevronDown } from "react-icons/fa";
-import { FaSave } from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaChevronDown, FaSave } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
 import Codeflow from '../../assets/Codeflow.png';
 import Monaco from '@monaco-editor/react';
+import { collection, addDoc, doc } from 'firebase/firestore';
+import { db } from '../utils/Firebase/firebaseConfig';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import codeflowIcon from '../../assets/Codeflow.png'
+import 'react-toastify/dist/ReactToastify.css';
 
 const CodingHome = () => {
   const [documentName, setDocumentName] = useState("");
@@ -12,6 +17,8 @@ const CodingHome = () => {
   const [CSScode, setCSSCode] = useState("");
   const [JScode, setJSCode] = useState("");
   const iframeRef = useRef(null);
+  const userEmail = useSelector((state) => state.user.email);
+
   const generateSrcDoc = () => {
     return `
       <html>
@@ -25,6 +32,30 @@ const CodingHome = () => {
         <script>${JScode}<\/script>
       </html>
     `;
+  };
+
+  const handleSave = async () => {
+    const webDevCode = generateSrcDoc();
+    const userDocRef = doc(db, "WebDev", userEmail);
+    const filesCollectionRef = collection(userDocRef, "files");
+    
+    toast.promise(
+      addDoc(filesCollectionRef, {
+        documentName,
+        webDevCode,
+        timeStamp: new Date(),
+      }),
+      {
+        pending: "Saving...",
+        success: "File Saved!",
+        error: "Error Saving the document",
+      },{
+        theme:"dark",
+        icon:<img src={codeflowIcon}></img>
+      }
+    );
+
+    console.log("Document successfully written under user email:", userEmail);
   };
 
   useEffect(() => {
@@ -55,14 +86,14 @@ const CodingHome = () => {
               }}
             />
           </Box>
-          <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400'>
-                    <FaSave />
-                    <button className=''>Save</button>
-                </div>
+          <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleSave}>
+            <FaSave />
+            <button className=''>Save</button>
+          </div>
         </div>
         <div className='flex gap-2 rounded-lg h-[55%] w-full'>
           {/* HTML */}
-          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+          <div className='flex flex-col w-[33%] rounded-lg text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
               <div className='flex items-center gap-2 '>
                 <FaHtml5 className='text-3xl' />
@@ -81,7 +112,7 @@ const CodingHome = () => {
             />
           </div>
           {/* CSS */}
-          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+          <div className='flex flex-col w-[33%] rounded-lg text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
               <div className='flex items-center gap-2'>
                 <FaCss3Alt className='text-3xl' />
@@ -100,7 +131,7 @@ const CodingHome = () => {
             />
           </div>
           {/* JS */}
-          <div className='flex flex-col w-[33%]  rounded-lg  text-gray-400 gap-2 relative h-full'>
+          <div className='flex flex-col w-[33%] rounded-lg text-gray-400 gap-2 relative h-full'>
             <div className='flex w-full justify-between items-center bg-black p-3 rounded-lg'>
               <div className='flex items-center gap-2'>
                 <IoLogoJavascript className='text-3xl' />
@@ -121,9 +152,10 @@ const CodingHome = () => {
           </div>
         </div>
         <div className='w-full p-4 rounded-lg h-[40%] bg-black text-white'>
-          <iframe ref={iframeRef} srcDoc={generateSrcDoc()}  width="100%" height="100%" />
+          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" />
         </div>
       </div>
+      <ToastContainer stacked />
     </>
   );
 };
