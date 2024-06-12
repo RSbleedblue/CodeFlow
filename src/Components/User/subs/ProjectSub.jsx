@@ -6,9 +6,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { db } from "../../utils/Firebase/firebaseConfig";
 import codeFlow from '../../../assets/Codeflow.png'
 import 'react-toastify/dist/ReactToastify.css';
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ProjectSub = ({ data, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -48,6 +50,13 @@ const ProjectSub = ({ data, onDelete }) => {
             setIsDeleting(false);
         });
     };
+    const handleShowCode = () => {
+        console.log(data);
+        sessionStorage.setItem("HTMLcode",data.HTMLcode);
+        sessionStorage.setItem("JScode",data.JScode);
+        sessionStorage.setItem("CSScode",data.CSScode);
+        navigate("web");
+    }
 
     return (
         <>
@@ -64,7 +73,7 @@ const ProjectSub = ({ data, onDelete }) => {
                     >
                         <MdDelete />
                     </button>
-                    <button className="text-xl text-gray-600 hover:text-white"><FaCode /></button>
+                    <button className="text-xl text-gray-600 hover:text-white" onClick={handleShowCode} ><FaCode /></button>
                     <button className="text-xl text-gray-600 hover:text-white"><FaShare /></button>
                 </div>
             </div>

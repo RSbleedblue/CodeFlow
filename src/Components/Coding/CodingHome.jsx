@@ -79,6 +79,9 @@ const CodingHome = () => {
         documentName,
         webDevCode,
         timeStamp: new Date(),
+        HTMLcode,
+        JScode,
+        CSScode,
       }),
       {
         pending: {
