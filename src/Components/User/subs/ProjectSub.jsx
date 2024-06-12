@@ -4,7 +4,6 @@ import { FaCode, FaShare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { db } from "../../utils/Firebase/firebaseConfig";
-import { FaSpinner, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import codeFlow from '../../../assets/Codeflow.png'
 
 const ProjectSub = ({ data, onDelete }) => {
@@ -50,8 +49,8 @@ const ProjectSub = ({ data, onDelete }) => {
     };
 
     return (
-        <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 gap-4 transform transition-all w-[30%] shadow-lg">
-            <p className="text-xl text-gray-600 bg-gray-900 p-3 rounded-lg">
+        <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400  hover:scale-105 hover:bg-gray-900 transform transition-all w-[30%] shadow-lg cursor-pointer">
+            <p className="text-xl text-gray-600 bg-gray-900 p-3 rounded-t-lg ">
                 Title: <span className="text-lg text-gray-400">{data.documentName}</span>
             </p>
             <iframe srcDoc={`${data.webDevCode}`} />
