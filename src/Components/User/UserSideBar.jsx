@@ -17,6 +17,7 @@ const UserMenu = () => {
     }
     const handleLogOut = () => {
         dispatch(logoutSuccess());
+        sessionStorage.clear();
     }
 
     return (

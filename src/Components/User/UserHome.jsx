@@ -1,11 +1,12 @@
 import { FaBusinessTime, FaCode, FaHtml5, FaLaptopCode, FaPencilAlt, FaShare } from "react-icons/fa";
+import { FaFileCode } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Codeflow from '../../assets/Codeflow.png'
 import StatsSub from "./subs/Stats";
 import { FaProjectDiagram } from "react-icons/fa";
 import {db} from '../utils/Firebase/firebaseConfig';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import ProjectSub from "./subs/ProjectSub";
 
 
@@ -13,10 +14,13 @@ const UserHome = () => {
     const user = sessionStorage.getItem("email");
     const [userName, setUserName] = useState("");
     const [projects, setProjects] = useState([]);
+    const [programs, setPrograms] = useState([]);
     useEffect(() => {
         getUserName();
         fetchProject(user);
+        fetchPrograms(user);
     }, [user]);
+    console.log(programs);
     const getUserName = () => {
         const split = user.split("@");
         setUserName(split[0].charAt(0).toUpperCase());
@@ -37,6 +41,20 @@ const UserHome = () => {
             console.log(e);
         }
     }
+    const fetchPrograms = async (user) => {
+        try{
+            const userDocRef = collection(db,"Coding",user,"files");
+            const query = await getDocs(userDocRef);
+            const programsList = query.docs.map(doc=>({
+                id:doc.id,
+                ...doc.data()
+            }));
+            setPrograms(programsList);
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
     const handleDelete = (Projectid)=> {
         setProjects(prevProjects => prevProjects.filter(project => project.id !== Projectid));
     }
@@ -49,7 +67,7 @@ const UserHome = () => {
         {
             icon: <FaLaptopCode className="text-xl" />,
             title: "Programs",
-            value: 291,
+            value: programs.length,
         },
         {
             icon: <FaBusinessTime className="text-xl" />,
@@ -76,7 +94,7 @@ const UserHome = () => {
                 </div>
                 {/* Users Work */}
                 <div className="w-full flex gap-2">
-                    <div className="flex flex-col p-4 rounded-lg border border-solid p-1 border-opacity-10 border-gray-400 bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
+                    <div className="flex flex-col p-4 rounded-lg border border-solid  border-opacity-10 border-gray-400 bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
                         <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram/></span>Projects</p>
                         {/* This part will go in loop */}
                         <div className="flex flex-wrap gap-10 items-center ">
@@ -86,6 +104,9 @@ const UserHome = () => {
                                 ))
                             }
                         </div>
+                    </div>
+                    <div className="flex flex-col p-4 rounded-lg border border-solid  border-opacity-10 border-gray-400 bg-codePlace w-[30%] gap-4 overflow-auto no-scrollbar h-screen">
+                        <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaFileCode/></span>Programs</p>
                     </div>
                 </div>
             </div>

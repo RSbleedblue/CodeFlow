@@ -1,28 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { FaSave, FaFileCode, FaPlayCircle } from "react-icons/fa";
 import { AiFillCode } from "react-icons/ai";
 import Monaco from '@monaco-editor/react';
 import Codeflow from '../../assets/Codeflow.png';
 import Languages from "../utils/Languages";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import codeFlow from '../../assets/Codeflow.png'
 import { executeCode } from '../utils/CompilerAPI';
 import ClipLoader from "react-spinners/ClipLoader";
-import { useSelector } from 'react-redux';
+import { db } from '../utils/Firebase/firebaseConfig';
+import { addDoc, collection, doc } from 'firebase/firestore';
+import 'react-toastify/dist/ReactToastify.css';
+import { BsFillFileEarmarkCodeFill } from 'react-icons/bs';
 
 const UserCoding = () => {
-    const [documentName, setDocumentName] = useState("");
-    const [language, setLanguage] = useState('');
-    const [codeData, setCodeData] = useState('');
+    const [documentName, setDocumentName] = useState(()=>sessionStorage.getItem("codingFileName") || "");
+    const [language, setLanguage] = useState(()=>sessionStorage.getItem("language") || "");
+    const [codeData, setCodeData] = useState(()=>sessionStorage.getItem("codeData") || "");
     const [output, setOutput] = useState('');
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const userEmail = useSelector((state) => state.user.email)
+    const userEmail = sessionStorage.getItem("email");
 
     const handleChange = (event) => {
         setLanguage(event.target.value);
     };
+    useEffect(()=>{
+        sessionStorage.setItem("codingFileName",documentName);
+        sessionStorage.setItem("language",language);
+        sessionStorage.setItem("codeData",codeData);
+    },[documentName,language,codeData]);
 
     const handleCode = async () => {
         if(!codeData){
@@ -41,6 +49,65 @@ const UserCoding = () => {
         }
         setOutput(result.run.output);
     };
+    const handleSave = async () => {
+        console.log("clicked");
+        if (!documentName && !codeData) {
+            toast.dark("Incomplete Fields",{
+                icon:<img src = {codeFlow} alt = "icon"/>,
+            });
+            return;
+        }
+        if(!documentName){
+            toast.dark("Fill the Document Name",{
+                icon: <img src = {codeFlow} alt = "icon"/>,
+            });
+            return;
+        }
+        if(!codeData){
+            toast.dark("Code Something First",{
+                icon: <img src = {codeFlow} alt='icon'/>,
+            });
+            return;
+        }
+        const userDocRef = doc(db, "Coding", userEmail);
+        console.log(userDocRef);
+        const filesCollectionRef = collection(userDocRef,"files");
+        console.log(filesCollectionRef);
+        toast.promise(
+            addDoc(filesCollectionRef,{
+                documentName,
+                codeData,
+                language,
+                timeStamp: new Date(),
+            }),
+            {
+                pending:{
+                    render:"Saving",
+                    theme:"dark",
+                    icon:<img src = {codeFlow}/>,
+                    autoClose: 1000,
+                },
+                success:{
+                    render:"Code Saved",
+                    theme: "dark",
+                    icon: <img src = {codeFlow}/>,
+                    autoClose:1000,
+                },
+                error:{
+                    render:"Error",
+                    theme: "dark",
+                    icon: <img src = {codeFlow} alt = "icon"/>,
+                    autoClose: 1000
+                }
+            }
+        );
+        console.log("completed!");
+    }
+    const handleNew = () => {
+        setCodeData("");
+        setLanguage("");
+        setDocumentName("");
+    }
 
     return (
         <div className='text-white w-full flex gap-2 flex-col p-2 items-start mt-2 h-screen'>
@@ -97,10 +164,16 @@ const UserCoding = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400'>
-                    <FaSave />
-                    <button className=''>Save</button>
-                </div>
+                <div className='flex gap-2'>
+            <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleNew}>
+              <BsFillFileEarmarkCodeFill />
+              <button className=''>New</button>
+            </div>
+            <div className='flex items-center gap-2 p-2 text-sm bg-black rounded-lg cursor-pointer hover:scale-105 transition-all text-gray-400' onClick={handleSave}>
+              <FaSave />
+              <button className=''>Save</button>
+            </div>
+          </div>
             </div>
             {/* CodeArea */}
             <div className="flex gap-2 w-full h-full">
@@ -151,6 +224,7 @@ const UserCoding = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer stacked/>
         </div>
     );
 }
