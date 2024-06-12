@@ -4,7 +4,7 @@ import { FaHtml5, FaCss3Alt, FaChevronDown, FaSave } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
 import Codeflow from '../../assets/Codeflow.png';
 import Monaco from '@monaco-editor/react';
-import { collection, addDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../utils/Firebase/firebaseConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import codeflowIcon from '../../assets/Codeflow.png';
@@ -35,6 +35,7 @@ const CodingHome = () => {
     sessionStorage.setItem('CSScode', '');
     sessionStorage.setItem('JScode', '');
     sessionStorage.setItem('DocumentName', 'Untitled');
+    sessionStorage.removeItem("WebDevID");
   }
 
   const generateSrcDoc = () => {
@@ -73,9 +74,44 @@ const CodingHome = () => {
     const webDevCode = generateSrcDoc();
     const userDocRef = doc(db, "WebDev", userEmail);
     const filesCollectionRef = collection(userDocRef, "files");
+    const webDevId = sessionStorage.getItem("WebDevID") || null;
 
+    if(!webDevId){
+      toast.promise(
+        addDoc(filesCollectionRef, {
+          documentName,
+          webDevCode,
+          timeStamp: new Date(),
+          HTMLcode,
+          JScode,
+          CSScode,
+        }),
+        {
+          pending: {
+            render: "Saving...",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose:1000
+          },
+          success: {
+            render: "File Saved!",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose:1000
+          },
+          error: {
+            render: "Error Saving the document",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose:1000
+          }
+        }
+      );
+      return;
+    }
+    const existingDocRef = doc(filesCollectionRef, webDevId);
     toast.promise(
-      addDoc(filesCollectionRef, {
+      updateDoc(existingDocRef, {
         documentName,
         webDevCode,
         timeStamp: new Date(),
@@ -91,7 +127,7 @@ const CodingHome = () => {
           autoClose:1000
         },
         success: {
-          render: "File Saved!",
+          render: "File Updated!",
           theme: "dark",
           icon: <img src={codeflowIcon} alt="icon" />,
           autoClose:1000
@@ -104,7 +140,6 @@ const CodingHome = () => {
         }
       }
     );
-
     console.log("Document successfully written under user email:", userEmail);
   };
 

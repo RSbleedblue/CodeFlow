@@ -7,8 +7,13 @@ import { ToastContainer, toast } from "react-toastify";
 import codeFlow from '../../../assets/Codeflow.png';
 import 'react-toastify/dist/ReactToastify.css';
 import { db } from "../../utils/Firebase/firebaseConfig";
+import { useDispatch } from "react-redux";
+import { changeOption } from "../../Redux/Slices/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProgramSub = ({ data,onDelete }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleDelete = async() => {
         toast.promise(
             async() => {
@@ -47,6 +52,14 @@ const ProgramSub = ({ data,onDelete }) => {
             console.log("process done");
         })
     }
+    const handleShowCode = () => {
+        sessionStorage.setItem("codeData",data.codeData);
+        sessionStorage.setItem("language",data.language);
+        sessionStorage.setItem("codingFileName",data.documentName);
+        sessionStorage.setItem("ProgramCodeID",data.id);
+        dispatch(changeOption("coding"));
+        navigate("coding");
+    }
     return (
         <>
             <div className="flex flex-col text-gray-400 w-full  p-1 gap-2 border-l-2 border-gray-400 border-opacity-30 hover:shadow-xl transition-all cursor-pointer hover:border-codeFlow">
@@ -54,8 +67,8 @@ const ProgramSub = ({ data,onDelete }) => {
                 <div className="w-[80%] flex justify-between">
                     <div className="flex gap-1 items-center ml-[10%]">
                         <button className="text-xs text-gray-400 hover:text-codeFlow" onClick={handleDelete}><MdDelete /></button>
-                        <button className="text-xs text-gray-400 hover:text-white"><FaCode /></button>
-                        <button className="text-xs text-gray-400 hover:text-white"><FaShare /></button>
+                        <button className="text-xs text-gray-400 hover:text-white" onClick={handleShowCode}><FaCode /></button>
+                        
                     </div>
                     <p className="text-sm flex items-center gap-2"><span className="text-sm"><SiCodeforces /></span>{data.language.toUpperCase()}</p>
                 </div>

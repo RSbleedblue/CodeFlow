@@ -10,7 +10,7 @@ import codeFlow from '../../assets/Codeflow.png'
 import { executeCode } from '../utils/CompilerAPI';
 import ClipLoader from "react-spinners/ClipLoader";
 import { db } from '../utils/Firebase/firebaseConfig';
-import { addDoc, collection, doc } from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import 'react-toastify/dist/ReactToastify.css';
 import { BsFillFileEarmarkCodeFill } from 'react-icons/bs';
 
@@ -69,12 +69,43 @@ const UserCoding = () => {
             });
             return;
         }
+        const codeID = sessionStorage.getItem("ProgramCodeID") || null;
         const userDocRef = doc(db, "Coding", userEmail);
-        console.log(userDocRef);
         const filesCollectionRef = collection(userDocRef,"files");
-        console.log(filesCollectionRef);
+        if(!codeID){
+            toast.promise(
+                addDoc(filesCollectionRef,{
+                    documentName,
+                    codeData,
+                    language,
+                    timeStamp: new Date(),
+                }),
+                {
+                    pending:{
+                        render:"Saving",
+                        theme:"dark",
+                        icon:<img src = {codeFlow}/>,
+                        autoClose: 1000,
+                    },
+                    success:{
+                        render:"Code Saved",
+                        theme: "dark",
+                        icon: <img src = {codeFlow}/>,
+                        autoClose:1000,
+                    },
+                    error:{
+                        render:"Error",
+                        theme: "dark",
+                        icon: <img src = {codeFlow} alt = "icon"/>,
+                        autoClose: 1000
+                    }
+                }
+            );
+            return;
+        }
+        const existingDocRef = doc(filesCollectionRef, codeID);
         toast.promise(
-            addDoc(filesCollectionRef,{
+            updateDoc(existingDocRef,{
                 documentName,
                 codeData,
                 language,
@@ -88,7 +119,7 @@ const UserCoding = () => {
                     autoClose: 1000,
                 },
                 success:{
-                    render:"Code Saved",
+                    render:"Code Updated",
                     theme: "dark",
                     icon: <img src = {codeFlow}/>,
                     autoClose:1000,
@@ -101,12 +132,15 @@ const UserCoding = () => {
                 }
             }
         );
+        
         console.log("completed!");
     }
+    
     const handleNew = () => {
         setCodeData("");
         setLanguage("");
         setDocumentName("");
+        sessionStorage.removeItem("ProgramCodeID");
     }
 
     return (

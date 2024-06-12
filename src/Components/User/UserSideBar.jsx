@@ -39,8 +39,9 @@ const UserMenu = () => {
                     <IoCode />
                 </Link>
             </div>
-            <div>
+            <div className='flex flex-col items-center gap-4'>
                 <RiLogoutCircleLine className="text-gray-600 text-2xl hover:text-codeFlow cursor-pointer" onClick={handleLogOut} />
+                <p className='text-gray-600 text-xs text-semibold'>V 1.0.1</p>
             </div>
         </div>
     );
