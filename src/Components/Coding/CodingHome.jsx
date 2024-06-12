@@ -46,12 +46,7 @@ const CodingHome = () => {
             color: #ffffff;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Disable the scrollbar */
-          }
-          /* Hide the scrollbar */
-          ::-webkit-scrollbar {
-            width: 0;
-            height: 0;
+            overflow:auto;
           }
           ${CSScode}
         </style>
@@ -209,8 +204,8 @@ const CodingHome = () => {
             />
           </div>
         </div>
-        <div className='w-full p-4 rounded-lg h-[40%] bg-black text-white'>
-          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" style={{ objectFit: "contain" }} />
+        <div className='w-full  rounded-lg h-[40%] bg-black text-white'>
+          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%"  />
         </div>
       </div>
       <ToastContainer stacked />

@@ -13,30 +13,27 @@
 }
 
 .typing-container {
-    overflow: hidden; /* Ensures the text doesn't go beyond the bounds */
-    white-space: nowrap; /* Keeps the text on a single line */
-    border-right: .15em solid orange; /* The cursor */
+    overflow: hidden; 
+    white-space: nowrap; 
+    border-right: .15em solid orange;
     animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
 }
 
-/* width */
+
 ::-webkit-scrollbar {
     width: 2px;
 }
  
-/* Track */
 ::-webkit-scrollbar-track {
     background: #888;
     border-radius: 5px;
 }
  
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #FF156D;
     border-radius: 5px;
 }
  
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
@@ -52,7 +49,7 @@
 
 .monaco-menu .monaco-menu {
     margin-top: -35px;
-    /* Moves the submenu up by 35px */
+    
 }
 
 .monaco-menu .action-item {
@@ -83,8 +80,7 @@
     display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
 }
