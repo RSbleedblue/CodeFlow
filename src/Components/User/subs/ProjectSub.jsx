@@ -7,10 +7,13 @@ import { db } from "../../utils/Firebase/firebaseConfig";
 import codeFlow from '../../../assets/Codeflow.png'
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeOption } from "../../Redux/Slices/UserSlice";
 
 const ProjectSub = ({ data, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -55,6 +58,8 @@ const ProjectSub = ({ data, onDelete }) => {
         sessionStorage.setItem("HTMLcode",data.HTMLcode);
         sessionStorage.setItem("JScode",data.JScode);
         sessionStorage.setItem("CSScode",data.CSScode);
+        sessionStorage.setItem("DocumentName",data.documentName);
+        dispatch(changeOption("web"));
         navigate("web");
     }
 
