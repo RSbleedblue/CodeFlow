@@ -1,13 +1,16 @@
 import { FaBusinessTime, FaCode, FaHtml5, FaLaptopCode, FaPencilAlt, FaShare } from "react-icons/fa";
 import { FaFileCode } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { IoIosCode } from "react-icons/io";
 import Codeflow from '../../assets/Codeflow.png'
 import StatsSub from "./subs/Stats";
 import { FaProjectDiagram } from "react-icons/fa";
-import {db} from '../utils/Firebase/firebaseConfig';
+import { db } from '../utils/Firebase/firebaseConfig';
 import { collection, doc, getDocs } from "firebase/firestore";
+import { SiCodeforces } from "react-icons/si";
 import ProjectSub from "./subs/ProjectSub";
+import { MdDelete } from "react-icons/md";
+import ProgramSub from "./subs/ProgramSub";
 
 
 const UserHome = () => {
@@ -25,38 +28,41 @@ const UserHome = () => {
         const split = user.split("@");
         setUserName(split[0].charAt(0).toUpperCase());
     }
-    const fetchProject = async(user)=>{
-        try{
+    const fetchProject = async (user) => {
+        try {
             console.log(user);
-            const userDocRef = collection(db,"WebDev",user, "files");
+            const userDocRef = collection(db, "WebDev", user, "files");
 
             const query = await getDocs(userDocRef);
-            const projectsLists = query.docs.map(doc=>(console.log(doc),{
-                id:doc.id,
+            const projectsLists = query.docs.map(doc => (console.log(doc), {
+                id: doc.id,
                 ...doc.data()
             }));
             setProjects(projectsLists);
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
     }
     const fetchPrograms = async (user) => {
-        try{
-            const userDocRef = collection(db,"Coding",user,"files");
+        try {
+            const userDocRef = collection(db, "Coding", user, "files");
             const query = await getDocs(userDocRef);
-            const programsList = query.docs.map(doc=>({
-                id:doc.id,
+            const programsList = query.docs.map(doc => ({
+                id: doc.id,
                 ...doc.data()
             }));
             setPrograms(programsList);
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
     }
-    const handleDelete = (Projectid)=> {
+    const handleProjectDelete = (Projectid) => {
         setProjects(prevProjects => prevProjects.filter(project => project.id !== Projectid));
+    }
+    const handleProgramDelete = (Programid) => {
+        setPrograms(prevPrograms => prevPrograms.filter(program => program.id !== Programid));
     }
     const stats = [
         {
@@ -89,24 +95,32 @@ const UserHome = () => {
                 {/* Stats */}
                 <div className="w-[80%] flex gap-2">
                     {stats.map((ele, idx) => (
-                        <StatsSub key={idx} {...ele}  />
+                        <StatsSub key={idx} {...ele} />
                     ))}
                 </div>
                 {/* Users Work */}
                 <div className="w-full flex gap-2">
                     <div className="flex flex-col p-4 rounded-lg border border-solid  border-opacity-10 border-gray-400 bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
-                        <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram/></span>Projects</p>
+                        <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram /></span>Projects</p>
                         {/* This part will go in loop */}
                         <div className="flex flex-wrap gap-10 items-center ">
                             {
-                                projects.map((ele,idx) => (
-                                    <ProjectSub data={ele} key={idx} onDelete={handleDelete}/>
+                                projects.map((ele, idx) => (
+                                    <ProjectSub data={ele} key={idx} onDelete={handleProjectDelete} />
                                 ))
                             }
                         </div>
                     </div>
                     <div className="flex flex-col p-4 rounded-lg border border-solid  border-opacity-10 border-gray-400 bg-codePlace w-[30%] gap-4 overflow-auto no-scrollbar h-screen">
-                        <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaFileCode/></span>Programs</p>
+                        <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaFileCode /></span>Programs</p>
+                        {/* Loop From here */}
+                            {
+                                programs.map((ele,idx)=>(
+                                    <ProgramSub data={ele} key={idx} onDelete={handleProgramDelete} />
+                                ))
+                            }
+                        {/* End */}
+                        
                     </div>
                 </div>
             </div>

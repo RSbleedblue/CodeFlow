@@ -216,7 +216,7 @@ const UserCoding = () => {
                     <div className="h-full bg-codePlace rounded-lg">
                         {
                             output ? (
-                                <p className={`text-sm p-3 ${isError ? "text-red-600" : "text-gray-500"}`}>{output}</p>
+                                <pre className={`text-sm p-3 ${isError ? "text-red-600" : "text-gray-500"}`}>{output}</pre>
                             ) : (
                                 <p className="text-gray-600 text-sm p-3">Run your code to see the output</p>
                             )
