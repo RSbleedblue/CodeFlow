@@ -7,12 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import codeFlow from '../../../assets/Codeflow.png';
 import 'react-toastify/dist/ReactToastify.css';
 import { db } from "../../utils/Firebase/firebaseConfig";
-import { useDispatch } from "react-redux";
-import { changeOption } from "../../Redux/Slices/UserSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProgramSub = ({ data,onDelete }) => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleDelete = async() => {
         toast.promise(
@@ -57,7 +54,6 @@ const ProgramSub = ({ data,onDelete }) => {
         sessionStorage.setItem("language",data.language);
         sessionStorage.setItem("codingFileName",data.documentName);
         sessionStorage.setItem("ProgramCodeID",data.id);
-        dispatch(changeOption("coding"));
         navigate("coding");
     }
     return (

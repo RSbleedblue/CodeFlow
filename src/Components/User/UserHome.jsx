@@ -103,7 +103,7 @@ const UserHome = () => {
                     <div className="flex flex-col p-4 rounded-lg border border-solid  border-opacity-10 border-gray-400 bg-codePlace w-[70%] gap-4 overflow-auto no-scrollbar h-screen">
                         <p className="text-2xl text-gray-400 flex gap-4 w-full items-center "><span className="text-xl"><FaProjectDiagram /></span>Projects</p>
                         {/* This part will go in loop */}
-                        <div className="flex flex-wrap gap-10 items-center ">
+                        <div className="flex flex-wrap gap-5 items-center ">
                             {
                                 projects.map((ele, idx) => (
                                     <ProjectSub data={ele} key={idx} onDelete={handleProjectDelete} />

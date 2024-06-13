@@ -3,18 +3,13 @@ import LogoComponent from "../Common/CommonLogo";
 import { IoCode } from "react-icons/io5";
 import { FaHome } from "react-icons/fa";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { useDispatch} from "react-redux";
 import { FaHtml5 } from "react-icons/fa";
-import { changeOption } from '../Redux/Slices/UserSlice';
 import { logoutSuccess } from '../Redux/Slices/LoginSlice';
 
 const UserMenu = () => {
     const dispatch = useDispatch();
-    const selectedOption = useSelector((state) => state.user.selectedOption);
-    const handleSelection = (str) => {
-        dispatch(changeOption(str));
-    }
     const handleLogOut = () => {
         dispatch(logoutSuccess());
         sessionStorage.clear();
@@ -29,15 +24,21 @@ const UserMenu = () => {
                 </svg>
             </div>
             <div className="flex flex-col gap-4 w-full text-gray-500">
-                <Link to="/user/" className={` text-2xl w-full flex items-center justify-center  hover:text-codeFlow ${selectedOption === 'home' ? "text-codeFlow border-l-codeFlow border-l-2" : ""}`} onClick={()=>handleSelection("home")}>
-                    <FaHome />
-                </Link>
-                <Link to="/user/web" className={`text-2xl w-full flex items-center justify-center hover:text-codeFlow ${selectedOption === 'web' ? "text-codeFlow border-l-codeFlow border-l" : ""}`}onClick={()=>handleSelection("web")}>
-                    <FaHtml5 />
-                </Link>
-                <Link to="/user/coding" className={`text-2xl w-full flex items-center justify-center hover:text-codeFlow ${selectedOption === 'coding' ? "text-codeFlow border-l-codeFlow border-l" : ""}`}onClick={()=>handleSelection("coding")}>
-                    <IoCode />
-                </Link>
+                <NavLink to="/user" className={`text-2xl w-full flex justify-center  hover:text-codeFlow `} end>
+                    {({ isActive }) => (
+                        <FaHome className={isActive ? "text-codeFlow border-l-codeFlow border-l text-2xl w-full flex justify-center  hover:text-codeFlow" : ""} />
+                    )}
+                </NavLink>
+                <NavLink to="/user/web" className={`text-2xl w-full flex items-center justify-center hover:text-codeFlow`} >
+                    {({ isActive }) => (
+                        <FaHtml5 className={isActive ? "text-codeFlow border-l-codeFlow border-l text-2xl w-full flex justify-center  hover:text-codeFlow" : ""} />
+                    )}
+                </NavLink>
+                <NavLink to="/user/coding" className={`text-2xl w-full flex items-center justify-center hover:text-codeFlow`} >
+                    {({ isActive }) => (
+                        <IoCode className={isActive ? "text-codeFlow border-l-codeFlow border-l text-2xl w-full flex justify-center  hover:text-codeFlow" : ""} />
+                    )}
+                </NavLink>
             </div>
             <div className='flex flex-col items-center gap-4'>
                 <RiLogoutCircleLine className="text-gray-600 text-2xl hover:text-codeFlow cursor-pointer" onClick={handleLogOut} />

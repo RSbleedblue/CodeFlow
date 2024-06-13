@@ -36,6 +36,7 @@ const CodingHome = () => {
     sessionStorage.setItem('JScode', '');
     sessionStorage.setItem('DocumentName', 'Untitled');
     sessionStorage.removeItem("WebDevID");
+    sessionStorage.removeItem("PrevDocName");
   }
 
   const generateSrcDoc = () => {
@@ -43,12 +44,6 @@ const CodingHome = () => {
       <html>
         <body>${HTMLcode}</body>
         <style>
-          body {
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            overflow:auto;
-          }
           ${CSScode}
         </style>
         <script>${JScode}<\/script>
@@ -75,10 +70,37 @@ const CodingHome = () => {
     const userDocRef = doc(db, "WebDev", userEmail);
     const filesCollectionRef = collection(userDocRef, "files");
     const webDevId = sessionStorage.getItem("WebDevID") || null;
+    const prevDocName = sessionStorage.getItem("PrevDocName") || null;
 
-    if(!webDevId){
+    if (!webDevId && !prevDocName) {
+      try {
+        const docRef = await addDoc(filesCollectionRef, {
+          documentName,
+          webDevCode,
+          timeStamp: new Date(),
+          HTMLcode,
+          JScode,
+          CSScode,
+        });
+        sessionStorage.setItem("CurrentDocID", docRef.id);
+        sessionStorage.setItem("PrevDocName", documentName);
+        toast.dark("File Saved!", {
+          icon: <img src={codeflowIcon} alt="icon" />,
+          autoClose: 1000
+        });
+      } catch (error) {
+        toast.dark("Error Saving the document", {
+          icon: <img src={codeflowIcon} alt="icon" />,
+          autoClose: 1000
+        });
+      }
+      return;
+    }
+    if (documentName === prevDocName) {
+      const currentDocID = sessionStorage.getItem("CurrentDocID");
+      const existingDocRef = doc(filesCollectionRef,currentDocID);
       toast.promise(
-        addDoc(filesCollectionRef, {
+        updateDoc(existingDocRef, {
           documentName,
           webDevCode,
           timeStamp: new Date(),
@@ -91,23 +113,58 @@ const CodingHome = () => {
             render: "Saving...",
             theme: "dark",
             icon: <img src={codeflowIcon} alt="icon" />,
-            autoClose:1000
+            autoClose: 1000
           },
           success: {
-            render: "File Saved!",
+            render: "File Updated!",
             theme: "dark",
             icon: <img src={codeflowIcon} alt="icon" />,
-            autoClose:1000
+            autoClose: 1000
           },
           error: {
             render: "Error Saving the document",
             theme: "dark",
             icon: <img src={codeflowIcon} alt="icon" />,
-            autoClose:1000
+            autoClose: 1000
           }
         }
       );
       return;
+    }
+    if (!webDevId) {
+        toast.promise(
+            addDoc(filesCollectionRef, {
+                documentName,
+                webDevCode,
+                timeStamp: new Date(),
+                HTMLcode,
+                JScode,
+                CSScode,
+            }),
+            {
+                pending: {
+                    render: "Saving...",
+                    theme: "dark",
+                    icon: <img src={codeflowIcon} alt="icon" />,
+                    autoClose: 1000
+                },
+                success: {
+                    render: "File Saved!",
+                    theme: "dark",
+                    icon: <img src={codeflowIcon} alt="icon" />,
+                    autoClose: 1000
+                },
+                error: {
+                    render: "Error Saving the document",
+                    theme: "dark",
+                    icon: <img src={codeflowIcon} alt="icon" />,
+                    autoClose: 1000
+                }
+            }
+        );
+        sessionStorage.setItem("CurrentDocID", docRef.id);
+        sessionStorage.setItem("PrevDocName", documentName);
+        return;
     }
     const existingDocRef = doc(filesCollectionRef, webDevId);
     toast.promise(
@@ -124,24 +181,25 @@ const CodingHome = () => {
           render: "Saving...",
           theme: "dark",
           icon: <img src={codeflowIcon} alt="icon" />,
-          autoClose:1000
+          autoClose: 1000
         },
         success: {
           render: "File Updated!",
           theme: "dark",
           icon: <img src={codeflowIcon} alt="icon" />,
-          autoClose:1000
+          autoClose: 1000
         },
         error: {
           render: "Error Saving the document",
           theme: "dark",
           icon: <img src={codeflowIcon} alt="icon" />,
-          autoClose:1000
+          autoClose: 1000
         }
       }
     );
     console.log("Document successfully written under user email:", userEmail);
   };
+
 
   useEffect(() => {
     if (iframeRef.current) {
@@ -243,7 +301,7 @@ const CodingHome = () => {
           </div>
         </div>
         <div className='w-full  rounded-lg h-[40%] bg-black text-white'>
-          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%"  />
+          <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" />
         </div>
       </div>
       <ToastContainer stacked />

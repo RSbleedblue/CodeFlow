@@ -242,7 +242,7 @@ const UserCoding = () => {
                     />
                 </div>
                 {/* Output */}
-                <div className="w-[35%] flex flex-col ">
+                <div className="w-[35%] flex flex-col max-h-[700px]">
                     <div className="w-full flex items-center gap-2 bg-black rounded-lg p-4 mb-2 text-gray-500 ">
                         <AiFillCode className="text-2xl" />
                         <p className="text-sm">Output</p>

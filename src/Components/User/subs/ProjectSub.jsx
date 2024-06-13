@@ -7,16 +7,12 @@ import { db } from "../../utils/Firebase/firebaseConfig";
 import codeFlow from '../../../assets/Codeflow.png';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { changeOption } from "../../Redux/Slices/UserSlice";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
 
 const ProjectSub = ({ data, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const [isPublic, setIsPublic] = useState(false);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -37,7 +33,6 @@ const ProjectSub = ({ data, onDelete }) => {
                     },
                     icon: <img src={codeFlow} />,
                     theme: "dark",
-                    autoClose: 3000,
                 },
                 success: {
                     render() {
@@ -59,23 +54,18 @@ const ProjectSub = ({ data, onDelete }) => {
             setIsDeleting(false);
         });
     };
-
     const handleShowCode = () => {
         sessionStorage.setItem("HTMLcode", data.HTMLcode);
         sessionStorage.setItem("JScode", data.JScode);
         sessionStorage.setItem("CSScode", data.CSScode);
         sessionStorage.setItem("DocumentName", data.documentName);
         sessionStorage.setItem("WebDevID", data.id);
-        dispatch(changeOption("web"));
         navigate("web");
     };
-
     const handleShare = async () => {
         const userEmail = sessionStorage.getItem("email");
         const ProgramID = data.id;
         const publicDocRef = doc(db, "Public", ProgramID);
-
-        // Check if the document already exists in the Public collection
         const docSnap = await getDoc(publicDocRef);
 
         if (docSnap.exists()) {
@@ -119,14 +109,13 @@ const ProjectSub = ({ data, onDelete }) => {
             handleClose();
         }
     };
-
     return (
         <>
-            <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 hover:scale-105 hover:bg-gray-900 transform transition-all w-[30%] shadow-lg cursor-pointer delay-75">
+            <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 hover:scale-105 hover:bg-gray-900 transform transition-all w-[28%] shadow-lg cursor-pointer delay-75 max-h-[700px]">
                 <p className="text-sm text-gray-600 bg-gray-900 p-3 rounded-t-lg ">
                     Title: <span className="text-sm text-gray-400">{data.documentName}</span>
                 </p>
-                <iframe srcDoc={`${data.webDevCode}`} />
+                <iframe srcDoc={`${data.webDevCode}`} className="w-full h-[200px] " />
                 <div className="flex gap-2 bg-gray-900 p-4 rounded-b-lg">
                     <button
                         className="text-xl text-gray-600 hover:text-codeFlow"
