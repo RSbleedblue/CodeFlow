@@ -58,7 +58,7 @@ const ProgramSub = ({ data,onDelete }) => {
     }
     return (
         <>
-            <div className="flex flex-col text-gray-400 w-full  p-1 gap-2 border-l-2 border-gray-400 border-opacity-30 hover:shadow-xl transition-all cursor-pointer hover:border-codeFlow">
+            <div className="flex flex-col text-gray-400 w-full  p-1 gap-2 border-l-2 border-gray-400 border-opacity-30 hover:shadow-xl transition-all cursor-pointer hover:border-codeFlow" onClick={handleShowCode}>
                 <p className="flex items-center gap-2"><span className=" text-2xl"><IoIosCode /></span>{data.documentName}</p>
                 <div className="w-[80%] flex justify-between">
                     <div className="flex gap-1 items-center ml-[10%]">

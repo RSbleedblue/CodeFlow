@@ -64,6 +64,14 @@ const UserHome = () => {
     const handleProgramDelete = (Programid) => {
         setPrograms(prevPrograms => prevPrograms.filter(program => program.id !== Programid));
     }
+    const formatDate = ()=>{
+        const today = new Date();
+        const day = today.getDate();
+        const month = today.toLocaleString('default', { month: 'long' });
+        const year = today.getFullYear();
+        const formattedDate = `${day} ${month}, ${year}`;
+        return formattedDate;
+    }
     const stats = [
         {
             icon: <FaHtml5 className="text-xl" />,
@@ -77,8 +85,8 @@ const UserHome = () => {
         },
         {
             icon: <FaBusinessTime className="text-xl" />,
-            title: "Time Spent",
-            value: "14 hrs",
+            title: "Date",
+            value: formatDate(),
         }
     ]
     return (

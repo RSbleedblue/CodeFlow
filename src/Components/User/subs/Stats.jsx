@@ -7,7 +7,10 @@ const StatsSub = (props) => {
                     {props.icon}
                     <p className="text-l text-gray-200">{props.title}</p>
                 </div>
-                <p className="text-[30px] text-codeFlow">{props.value}</p>
+                {
+                    props.title === "Date" ? 
+                    <p className="text-xl text-codeFlow mt-3">{props.value}</p> : <p className="text-[30px] text-codeFlow">{props.value}</p>
+                }
             </div>
         </>
     )
