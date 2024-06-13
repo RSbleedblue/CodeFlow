@@ -49,7 +49,7 @@ const Menu = () => {
                     <NavLink 
                         to="/" 
                         className={({ isActive }) => 
-                            isActive ? "text-codeFlow flex justify-center gap-2 p-2 border-l-2 border-codeFlow w-full cursor-pointer transition-all" 
+                            isActive ? "text-codeFlow flex justify-center gap-2 p-2 border-l-2 items-center border-codeFlow w-full cursor-pointer transition-all" 
                                      : "text-gray-500 flex items-center gap-2 p-2 border-l-2 justify-center border-gray-400 border-opacity-0 hover:border-codeFlow w-full hover:text-codeFlow cursor-pointer transition-all"
                         }
                     >
@@ -58,7 +58,7 @@ const Menu = () => {
                     <NavLink 
                         to="search" 
                         className={({ isActive }) => 
-                            isActive ? "text-codeFlow flex items-center gap-2 p-21 border-l-2 justify-center border-codeFlow w-full cursor-pointer transition-all" 
+                            isActive ? "text-codeFlow flex items-center gap-2 p-2 border-l-2 justify-center border-codeFlow w-full cursor-pointer transition-all" 
                                      : "text-gray-500 flex items-center gap-2 p-2 border-l-2 justify-center border-gray-400 border-opacity-0 hover:border-codeFlow w-full hover:text-codeFlow cursor-pointer transition-all"
                         }
                     >
