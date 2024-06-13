@@ -13,13 +13,39 @@ const SignUpPage = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 8;
+    };
+
     const handleSignUp = async (e) => {
         e.preventDefault();
-        if (!userName || !password || !email) {
-            toast.dark("Fill the fields First!", { icon: <img src={codeFlow} /> });
+        if (!userName) {
+            toast.dark("Username is required", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
             return;
         }
-    
+        if (!email) {
+            toast.dark("Email is required", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
+            return;
+        }
+        if (!validateEmail(email)) {
+            toast.dark("Invalid email format", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
+            return;
+        }
+        if (!password) {
+            toast.dark("Password is required", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
+            return;
+        }
+        if (!validatePassword(password)) {
+            toast.dark("Password must be at least 8 characters", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
+            return;
+        }
+
         toast.promise(
             createUserWithEmailAndPassword(auth, email, password),
             {
@@ -47,7 +73,7 @@ const SignUpPage = () => {
             dispatch(loginSelected());
         });
     };
-       
+
     return (
         <>
             <div className="text-white mt-[20%] flex flex-col gap-10 w-[40%]">

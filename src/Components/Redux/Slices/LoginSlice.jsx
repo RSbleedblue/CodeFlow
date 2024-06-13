@@ -20,8 +20,8 @@ const LoginSlice = createSlice({
             state.isLoggedIn = false;
             sessionStorage.setItem("isLoggedIn", false);
         },
-        loginSelected: (state) => {
-            state.loginSelected = !state.loginSelected;
+        loginSelected: (state,action) => {
+            state.loginSelected = action.payload;
         },
         signUpSelected: (state) => {
             state.signUpSelected = !state.signUpSelected;

@@ -4,7 +4,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import LoginSub from "./subs/loginSub";
 import LoginPage from "./subs/LoginPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignUpPage from "./subs/SignUpPage";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSelected } from "../Redux/Slices/LoginSlice";
@@ -31,9 +31,11 @@ const UserLogin = () => {
   const isloginSelected = useSelector((state) => state.auth.loginSelected);
   const dispatch = useDispatch();
   const handleSwitch = () => {
-    dispatch(loginSelected());
+    dispatch(loginSelected(!isloginSelected));
   }
-
+  useEffect(()=>{
+    dispatch(loginSelected(true));
+  },[]);
   return (
     <>
       <div className="w-full h-full bg-black border border-gray-900 rounded-lg p-6 flex flex-col items-center">

@@ -3,6 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSearchProjects } from "../Redux/Slices/UserSlice";
+import { loginSelected } from "../Redux/Slices/LoginSlice";
 
 const Search = () => {
     const [search, setSearch] = useState("");
@@ -10,6 +11,7 @@ const Search = () => {
     const dispatch = useDispatch();
 
     const handleLogin = () => {
+        dispatch(loginSelected(true));
         navigate("login");
     };
 
