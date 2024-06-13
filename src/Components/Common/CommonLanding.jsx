@@ -2,6 +2,7 @@ import { IoIosSettings } from "react-icons/io";
 import { CiCircleChevDown } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { loginSelected } from "../Redux/Slices/LoginSlice";
+import { useEffect } from "react";
 const Landing = () => {
     const dispatch = useDispatch();
     const handleLogin = () => {

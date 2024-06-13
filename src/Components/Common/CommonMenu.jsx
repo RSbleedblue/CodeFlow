@@ -4,13 +4,19 @@ import { toast } from "react-toastify";
 import codeFlow from '../../assets/Codeflow.png';
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const Menu = () => {
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const navigate = useNavigate();
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        setIsLogged(isLoggedIn);
+    }, [isLoggedIn]);
 
     const handleCoding = () => {
-        if (!isLoggedIn) {
+        if (!isLogged) {
             toast.dark("Log In First!", {
                 icon: <img src={codeFlow} />,
             });
