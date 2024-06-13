@@ -5,21 +5,23 @@ import { Button, Input, Typography } from "@material-tailwind/react";
 import codeFlow from '../../../assets/Codeflow.png';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from "react-redux";
+import { loginSelected } from "../../Redux/Slices/LoginSlice";
 
 const SignUpPage = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const dispatch = useDispatch();
     const handleSignUp = async (e) => {
         e.preventDefault();
         if (!userName || !password || !email) {
             toast.dark("Fill the fields First!", { icon: <img src={codeFlow} /> });
             return;
         }
-
+    
         toast.promise(
             createUserWithEmailAndPassword(auth, email, password),
-            
             {
                 pending: {
                     render() {
@@ -29,7 +31,6 @@ const SignUpPage = () => {
                     theme: 'dark'
                 },
                 success: {
-                    
                     render({ data }) {
                         return "Successfully registered!";
                     },
@@ -41,10 +42,12 @@ const SignUpPage = () => {
                         return `Error: ${data.message}`;
                     }
                 }
-            },
-        );
+            }
+        ).finally(() => {
+            dispatch(loginSelected());
+        });
     };
-
+       
     return (
         <>
             <div className="text-white mt-[20%] flex flex-col gap-10 w-[40%]">
@@ -97,7 +100,7 @@ const SignUpPage = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            Use at least 8 characters, one uppercase, one lowercase, and one number.
+                            Use at least 8 characters.
                         </Typography>
                         <Button
                             variant="text"

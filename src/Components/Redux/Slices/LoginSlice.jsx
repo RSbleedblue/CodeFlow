@@ -9,7 +9,7 @@ const LoginSlice = createSlice({
     name: 'auth',
     initialState: {
         isLoggedIn: getSessionStorage(),
-        loginSelected: false,
+        loginSelected: true,
     },
     reducers: {
         loginSuccess: (state) => {

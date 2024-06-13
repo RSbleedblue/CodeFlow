@@ -6,6 +6,8 @@ import LoginSub from "./subs/loginSub";
 import LoginPage from "./subs/LoginPage";
 import { useState } from "react";
 import SignUpPage from "./subs/SignUpPage";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSelected } from "../Redux/Slices/LoginSlice";
 
 const loginTypeData = [
   {
@@ -26,9 +28,10 @@ const loginTypeData = [
 ];
 
 const UserLogin = () => {
-  const [isLoginSelected, setisLoginSelected] = useState(true);
+  const isloginSelected = useSelector((state) => state.auth.loginSelected);
+  const dispatch = useDispatch();
   const handleSwitch = () => {
-    setisLoginSelected(!isLoginSelected);
+    dispatch(loginSelected());
   }
 
   return (
@@ -48,7 +51,7 @@ const UserLogin = () => {
               </p>
               <p className="text-gray-700">DEFLOW</p>
             </div>
-            <div className="text-white text-[60px] font-bold mb-10">{isLoginSelected?"Log In":"Sign UP"}</div>
+            <div className="text-white text-[60px] font-bold mb-10">{isloginSelected?"Log In":"Sign UP"}</div>
             {loginTypeData.map((item, index) => (
               <LoginSub type={item} key={index} />
             ))}
@@ -56,7 +59,7 @@ const UserLogin = () => {
             <p className=" text-gray-400 mt-4 text-sm flex items-center gap-2">New user?  <button className="text-codeFlow" onClick={handleSwitch}>Click here</button></p>
           </div>
           {
-            isLoginSelected ? (
+            isloginSelected ? (
               <LoginPage />) : <SignUpPage/>
           }
         </div>

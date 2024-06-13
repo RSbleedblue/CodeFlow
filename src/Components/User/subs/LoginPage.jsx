@@ -67,7 +67,7 @@ const LoginPage = () => {
                 <form onSubmit={handleLogin} className="flex flex-col gap-10">
                     <Input
                         variant="standard"
-                        label="Username"
+                        label="Email"
                         className="text-white::placeholder opacity-50 text-3xl"
                         color="white"
                         height={"100%"}
@@ -103,7 +103,7 @@ const LoginPage = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            Use at least 8 characters, one uppercase, one lowercase, and one number.
+                            Use at least 8 characters.
                         </Typography>
                     </div>
                     <Button

@@ -9,19 +9,24 @@ import ProtectedRoute from './Components/utils/ProtectedRoute';
 import UserDashboard from './Components/User/UserDashboard';
 import UserCoding from './Components/User/UserCoding';
 import UserHome from './Components/User/UserHome';
-
+import CommonSearchPage from './Components/Common/CommonSearchPage';
+import UserLogin from './Components/User/UserLogin';
+import CommonLanding from './Components/Common/CommonLanding';
 function App() {
   return (
     <>
       <Router>
         <ToastContainer />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} >
+            <Route path='' element={<CommonLanding />} />
+            <Route path="search" element={<CommonSearchPage />} />
+            <Route path="login" element={<UserLogin />} />
+          </Route>
           <Route path="/user/*" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>}>
             <Route path="web" element={<CodingHome />} />
-            <Route path="coding" element={<UserCoding/>} />
-            <Route path = "" element={<UserHome/>} />
-            {/* Add more user-related routes here */}
+            <Route path="coding" element={<UserCoding />} />
+            <Route path="" element={<UserHome />} />
           </Route>
         </Routes>
       </Router>

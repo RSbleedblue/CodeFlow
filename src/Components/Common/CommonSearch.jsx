@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSelected } from "../Redux/Slices/LoginSlice";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
     const [search, setSearch] = useState("");
-    const dispatch = useDispatch();
-    const loginSelectedState = useSelector((state) => state.auth.loginSelected);
+    const navigate = useNavigate();
 
     const handleLogin = () => {
-        dispatch(loginSelected());
+       navigate("login");
     }
 
     return (
@@ -27,7 +27,7 @@ const Search = () => {
                     className="bg-codeFlow p-2 rounded-lg hover:scale-105 transition-all"
                     onClick={handleLogin}
                 >
-                    {loginSelectedState ? "Home" : "Login"}
+                    Login
                 </button>
             </div>
         </div>
