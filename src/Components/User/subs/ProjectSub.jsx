@@ -1,4 +1,4 @@
-import { deleteDoc, doc, setDoc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaCode, FaShare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -62,21 +62,30 @@ const ProjectSub = ({ data, onDelete }) => {
         sessionStorage.setItem("WebDevID", data.id);
         navigate("web");
     };
+    const formatDate = ()=>{
+        const today = new Date();
+        const day = today.getDate();
+        const month = today.toLocaleString('default', { month: 'long' });
+        const year = today.getFullYear();
+        const formattedDate = `${day} ${month}, ${year}`;
+        return formattedDate;
+    }
     const handleShare = async () => {
         const userEmail = sessionStorage.getItem("email");
         const ProgramID = data.id;
         const publicDocRef = doc(db, "Public", ProgramID);
         const docSnap = await getDoc(publicDocRef);
-
+        const currentDate = formatDate(); 
+    
         if (docSnap.exists()) {
             toast.error("This project is already shared publicly.", {
                 icon: <img src={codeFlow} />,
                 theme: "dark"
             });
         } else {
-            const HTMLcode = sessionStorage.getItem("HTMLcode");
-            const CSScode = sessionStorage.getItem("CSScode");
-            const JScode = sessionStorage.getItem("JScode");
+            const HTMLcode = data.HTMLcode;
+            const CSScode = data.CSScode;
+            const JScode = data.JScode;
             const toBeDoc = `
                 <html>
                     <body>${HTMLcode}</body>
@@ -92,23 +101,23 @@ const ProjectSub = ({ data, onDelete }) => {
                     <script>${JScode}<\/script>
                 </html>
             `;
-
+    
             const docData = {
                 userEmail,
                 ProgramID,
                 documentName: data.documentName,
-                webDevCode: toBeDoc
+                webDevCode: toBeDoc,
+                timeUploaded: currentDate,
             };
-
+    
             await setDoc(publicDocRef, docData);
-            setIsPublic(true);
             toast.success("Project shared successfully.", {
                 icon: <img src={codeFlow} />,
                 theme: "dark"
             });
             handleClose();
         }
-    };
+    };    
     return (
         <>
             <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 hover:scale-105 hover:bg-gray-900 transform transition-all w-[28%] shadow-lg cursor-pointer delay-75 max-h-[700px]">

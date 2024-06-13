@@ -3,13 +3,32 @@ import { CiCircleChevDown } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { loginSelected } from "../Redux/Slices/LoginSlice";
 import { useEffect } from "react";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { db } from "../utils/Firebase/firebaseConfig";
+import { loadProjects } from "../Redux/Slices/UserSlice";
+import { useNavigate } from "react-router-dom";
 const Landing = () => {
     const dispatch = useDispatch();
-    const handleLogin = () => {
-        console.log("selected");
-        dispatch(loginSelected());
+    const navigate = useNavigate();
+    const handleLogin = () => { 
+        navigate("login");
     }
-
+    useEffect(()=>{
+        const fetchData = async() => {
+            try{
+                const query = await getDocs(collection(db,"Public"));
+                const projectData = [];
+                query.forEach(doc=>{
+                    projectData.push(doc.data());
+                });
+                dispatch(loadProjects(projectData));
+                console.log(projectData);
+            }
+            catch(errr){
+                console.log(errr);
+            }
+        };fetchData();
+    },[dispatch]);
     return (
         <>
             <svg style={{ display: 'none' }}>
@@ -24,7 +43,7 @@ const Landing = () => {
                     </symbol>
                 </defs>
             </svg>
-            <div className="w-full h-full bg-black border border-gray-900 rounded-lg flex relative">
+            <div className="w-full h-screen bg-black border border-gray-900 rounded-lg flex relative">
                 <div className="flex flex-col p-10 w-[50%] gap-10">
                     <div className=" flex  gap-5">
                         <svg className="h-20 w-20">

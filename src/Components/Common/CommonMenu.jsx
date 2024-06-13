@@ -27,7 +27,7 @@ const Menu = () => {
 
     return (
         <>
-            <div className="w-[15%] p-2 flex flex-col items-center rounded-2xl bg-black border border-gray-900 shadow-xl h-screen gap-4 justify-between">
+            <div className="w-[13%] fixed p-2 flex flex-col items-center rounded-2xl bg-black border border-gray-900 shadow-xl h-screen gap-4 justify-between">
                 <div className="flex flex-col gap-10 items-center">
                     <LogoComponent />
                     <div className="flex items-center gap-1 mt-10">
@@ -58,7 +58,7 @@ const Menu = () => {
                     <NavLink 
                         to="search" 
                         className={({ isActive }) => 
-                            isActive ? "text-codeFlow flex items-center gap-2 p-2 border-l-2 justify-center border-codeFlow w-full cursor-pointer transition-all" 
+                            isActive ? "text-codeFlow flex items-center gap-2 p-21 border-l-2 justify-center border-codeFlow w-full cursor-pointer transition-all" 
                                      : "text-gray-500 flex items-center gap-2 p-2 border-l-2 justify-center border-gray-400 border-opacity-0 hover:border-codeFlow w-full hover:text-codeFlow cursor-pointer transition-all"
                         }
                     >

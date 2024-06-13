@@ -17,9 +17,9 @@ const Home = () => {
         <>
             {
                 isLoaded ? (
-                    <div className="flex gap-2 w-full">
+                    <div className="flex gap-4 w-full">
                         <Menu />
-                        <div className="flex flex-col gap-2 w-full">
+                        <div className="flex flex-col gap-2 w-full ml-[210px] items-center justify-center">
                             <Search />
                             <Outlet />
                         </div>

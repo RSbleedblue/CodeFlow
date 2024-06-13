@@ -6,6 +6,8 @@ const UserSlice = createSlice ({
     initialState: {
         selectedOption : "",
         email: "",
+        projects:[],
+        searchProjects:"",
     },
     reducers:{
         changeOption : (state,action) => {
@@ -14,8 +16,14 @@ const UserSlice = createSlice ({
         changeEmail : (state,action) => {
             sessionStorage.setItem("email",action.payload);
             state.email = sessionStorage.getItem("email");
+        },
+        loadProjects : (state,action) => {
+            state.projects = action.payload;
+        },
+        setSearchProjects : (state,action) => {
+            state.searchProjects = action.payload;
         }
     }
 })
-export const {changeOption,changeEmail} = UserSlice.actions;
+export const {changeOption,changeEmail,loadProjects,setSearchProjects} = UserSlice.actions;
 export default UserSlice.reducer;
