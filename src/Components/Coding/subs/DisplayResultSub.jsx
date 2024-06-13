@@ -10,9 +10,12 @@ const DisplayResultSub = ({ data }) => {
     const handleLikeToggle = () => {
         setIsLiked(!isLiked);
     };
+    const handleShowCode = () => {
+        const isLoggedIn = sessionStorage.getItem("")
+    }
 
     return (
-        <div className="w-[20%] rounded-lg bg-codePlace hover:bg-gray-800  flex items-center justify-center transition-all ease-in-out">
+        <div className="w-[24%] rounded-lg bg-codePlace hover:bg-gray-800  flex items-center justify-center transition-all ease-in-out">
             <div className="w-[99%] h-[99%] flex flex-col rounded-lg bg-codePlace cursor-pointer">
                 <iframe
                     srcDoc={webDevCode}
@@ -33,7 +36,7 @@ const DisplayResultSub = ({ data }) => {
                             onClick={handleLikeToggle}
                         />
                         <FaEye className="hover:text-white" />
-                        <FaCode className="hover:text-gray-300" />
+                        <FaCode className="hover:text-gray-300" onClick={handleShowCode}/>
                     </div>
                     <div className="flex gap-2 items-center">
                         <CgProfile />

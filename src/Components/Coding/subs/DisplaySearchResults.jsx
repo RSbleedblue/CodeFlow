@@ -18,7 +18,7 @@ const DisplaySearchResults = () => {
     console.log(allProjects);
     return (
         <div className="text-white w-full flex flex-col p-4 gap-10">
-            <p className="text-xl text-gray-600"><span><LuFileSearch/></span>Search Results</p>
+            <p className="text-xl text-gray-600 flex items-center gap-2"><span><LuFileSearch/></span>Search Results</p>
             <div className="flex flex-wrap w-full gap-3">
                 {
                     resultProjects.length > 0

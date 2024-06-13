@@ -12,6 +12,9 @@ const Home = () => {
             setIsLoaded(true);
         }, 3000);
     }, []);
+    useEffect(()=>{
+        sessionStorage.setItem("isLoggedIn",false);
+    },[]);
 
     return (
         <>
