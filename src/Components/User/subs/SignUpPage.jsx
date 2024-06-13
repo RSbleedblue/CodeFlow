@@ -70,7 +70,7 @@ const SignUpPage = () => {
                 }
             }
         ).finally(() => {
-            dispatch(loginSelected());
+            dispatch(loginSelected(true));
         });
     };
 

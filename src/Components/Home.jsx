@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 const Home = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
+
     useEffect(() => {
         setTimeout(() => {
             setIsLoaded(true);
