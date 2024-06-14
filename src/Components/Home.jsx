@@ -3,6 +3,7 @@ import PreLoader from "./utils/PreLoader";
 import Menu from "./Common/CommonMenu";
 import Search from "./Common/CommonSearch";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +28,8 @@ const Home = () => {
                             <Search />
                             <Outlet />
                         </div>
+
+                        <ToastContainer stacked autoClose={1000} progressStyle={false}/>
                     </div>
                 ) : <PreLoader />
             }

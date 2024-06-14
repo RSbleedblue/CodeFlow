@@ -46,10 +46,8 @@ const CodingHome = () => {
         <style>
         body{
         color:white;
-        overflow:auto;
-        ::-webkit-scrollbar {
-    width: 2px;
-    display : hidden;
+       ::-webkit-scrollbar{
+	display: none;
 }
         };
           ${CSScode}

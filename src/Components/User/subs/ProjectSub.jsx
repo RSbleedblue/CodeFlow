@@ -107,6 +107,9 @@ const ProjectSub = ({ data, onDelete }) => {
                 ProgramID,
                 documentName: data.documentName,
                 webDevCode: toBeDoc,
+                HTMLcode: HTMLcode,
+                JScode: JScode,
+                CSScode: CSScode,
                 timeUploaded: currentDate,
             };
     
@@ -120,7 +123,7 @@ const ProjectSub = ({ data, onDelete }) => {
     };    
     return (
         <>
-            <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 hover:scale-105 hover:bg-gray-900 transform transition-all w-[28%] shadow-lg cursor-pointer delay-75 max-h-[700px]">
+            <div className="flex flex-col rounded-2xl border border-solid p-1 border-opacity-10 border-gray-400 hover:scale-105 hover:bg-gray-900 transform transition-all w-[28%] shadow-lg cursor-pointer delay-75 ">
                 <p className="text-sm text-gray-600 bg-gray-900 p-3 rounded-t-lg ">
                     Title: <span className="text-sm text-gray-400">{data.documentName}</span>
                 </p>
