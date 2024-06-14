@@ -44,12 +44,6 @@ const CodingHome = () => {
       <html>
         <body>${HTMLcode}</body>
         <style>
-        body{
-        color:white;
-       ::-webkit-scrollbar{
-	display: none;
-}
-        };
           ${CSScode}
         </style>
         <script>${JScode}<\/script>
