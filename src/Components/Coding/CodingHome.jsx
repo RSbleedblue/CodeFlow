@@ -44,6 +44,14 @@ const CodingHome = () => {
       <html>
         <body>${HTMLcode}</body>
         <style>
+        body{
+        color:white;
+        overflow:auto;
+        ::-webkit-scrollbar {
+    width: 2px;
+    display : hidden;
+}
+        };
           ${CSScode}
         </style>
         <script>${JScode}<\/script>
@@ -98,7 +106,7 @@ const CodingHome = () => {
     }
     if (documentName === prevDocName) {
       const currentDocID = sessionStorage.getItem("CurrentDocID");
-      const existingDocRef = doc(filesCollectionRef,currentDocID);
+      const existingDocRef = doc(filesCollectionRef, currentDocID);
       toast.promise(
         updateDoc(existingDocRef, {
           documentName,
@@ -132,39 +140,39 @@ const CodingHome = () => {
       return;
     }
     if (!webDevId) {
-        toast.promise(
-            addDoc(filesCollectionRef, {
-                documentName,
-                webDevCode,
-                timeStamp: new Date(),
-                HTMLcode,
-                JScode,
-                CSScode,
-            }),
-            {
-                pending: {
-                    render: "Saving...",
-                    theme: "dark",
-                    icon: <img src={codeflowIcon} alt="icon" />,
-                    autoClose: 1000
-                },
-                success: {
-                    render: "File Saved!",
-                    theme: "dark",
-                    icon: <img src={codeflowIcon} alt="icon" />,
-                    autoClose: 1000
-                },
-                error: {
-                    render: "Error Saving the document",
-                    theme: "dark",
-                    icon: <img src={codeflowIcon} alt="icon" />,
-                    autoClose: 1000
-                }
-            }
-        );
-        sessionStorage.setItem("CurrentDocID", docRef.id);
-        sessionStorage.setItem("PrevDocName", documentName);
-        return;
+      toast.promise(
+        addDoc(filesCollectionRef, {
+          documentName,
+          webDevCode,
+          timeStamp: new Date(),
+          HTMLcode,
+          JScode,
+          CSScode,
+        }),
+        {
+          pending: {
+            render: "Saving...",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose: 1000
+          },
+          success: {
+            render: "File Saved!",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose: 1000
+          },
+          error: {
+            render: "Error Saving the document",
+            theme: "dark",
+            icon: <img src={codeflowIcon} alt="icon" />,
+            autoClose: 1000
+          }
+        }
+      );
+      sessionStorage.setItem("CurrentDocID", docRef.id);
+      sessionStorage.setItem("PrevDocName", documentName);
+      return;
     }
     const existingDocRef = doc(filesCollectionRef, webDevId);
     toast.promise(
@@ -300,7 +308,7 @@ const CodingHome = () => {
             />
           </div>
         </div>
-        <div className='w-full  rounded-lg h-[40%] bg-black text-white'>
+        <div className='w-full  rounded-lg h-[40%] bg-black p-2 text-white'>
           <iframe ref={iframeRef} srcDoc={generateSrcDoc()} width="100%" height="100%" />
         </div>
       </div>

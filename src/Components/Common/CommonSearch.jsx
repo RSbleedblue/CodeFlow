@@ -24,7 +24,7 @@ const Search = () => {
     }, [search, dispatch]);
 
     return (
-        <div className="w-full text-white p-6 bg-black flex items-center border border-gray-900 rounded-lg justify-between">
+        <div className="w-full text-white p-6  bg-black flex items-center border border-gray-900 rounded-lg justify-between">
             <div className="flex border border-solid border-gray-900 w-[60%] items-center p-2 rounded-lg">
                 <CiSearch className="text-2xl text-gray-500" onClick={handleSearch} />
                 <input

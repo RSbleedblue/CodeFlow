@@ -3,16 +3,18 @@ import { CgProfile } from "react-icons/cg";
 import { FaCode, FaEye, FaFileCode, FaHeart } from "react-icons/fa";
 
 const DisplayResultSub = ({ data }) => {
-    const formatEmail = data.userEmail.split("@")[0];
+    const formatEmail = data.userEmail ? data.userEmail.split("@")[0] : null;
     const webDevCode = data.webDevCode ? data.webDevCode : "<p>No content available</p>";
     const [isLiked, setIsLiked] = useState(false);
 
     const handleLikeToggle = () => {
         setIsLiked(!isLiked);
     };
+
     const handleShowCode = () => {
-        const isLoggedIn = sessionStorage.getItem("")
-    }
+        const isLoggedIn = sessionStorage.getItem("");
+        // Handle showing code
+    };
 
     return (
         <div className="w-[24%] rounded-lg bg-codePlace hover:bg-gray-800  flex items-center justify-center transition-all ease-in-out">

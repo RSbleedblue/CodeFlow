@@ -38,7 +38,7 @@ const UserLogin = () => {
   },[]);
   return (
     <>
-      <div className="w-full h-full bg-black border border-gray-900 rounded-lg p-6 flex flex-col items-center">
+      <div className="w-full h-[84vh] bg-black border border-gray-900 rounded-lg p-6 flex flex-col items-center">
         <LogoComponent />
         <div className="w-[70%] flex">
           <div className="flex flex-col w-[40%] items-start">

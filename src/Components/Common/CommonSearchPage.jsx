@@ -8,7 +8,7 @@ const CommonSearchPage = () => {
     const search = useSelector((state)=> state.user.searchProjects);
     return(
         <>
-            <div className="w-full h-full p-2 rounded-lg bg-black">
+            <div className="w-full h-[84vh] p-2 rounded-lg bg-black">
                 {
                     search.length === 0 ? <NoProjects/>:<DisplaySearchResults/>
                 }

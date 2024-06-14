@@ -5,6 +5,7 @@ import codeFlow from '../../assets/Codeflow.png';
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { MdLocalLibrary } from "react-icons/md";
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Menu = () => {
                     <p className="text-gray-400 text-[12px] font-mono -mt-8">Try our Online Editor</p>
                     <button className="rounded-md bg-gradient-to-r from-red-600 via-red-500 to-yellow-600 p-1 hover:from-yellow-600 hover:via-red-500 hover:to-red-600 transition-all">
                         <div className="bg-gray-800 hover:bg-gray-900 transition-all cursor-pointer" onClick={handleCoding}>
-                            <h1 className="text-sm font-mono text-white p-4">Workspace</h1>
+                            <h1 className="text-sm font-mono text-white p-4">Start Coding</h1>
                         </div>
                     </button>
                 </div>
@@ -63,6 +64,15 @@ const Menu = () => {
                         }
                     >
                         <span className="text-xl"><FaSearch /></span>Search 
+                    </NavLink>
+                    <NavLink 
+                        to="explore"
+                        className={({isActive}) =>
+                            isActive ? "text-codeFlow flex items-center gap-2 p-2 border-l-2 justify-center border-codeFlow w-full cursor-pointer transition-all" 
+                                     : "text-gray-500 flex items-center gap-2 p-2 border-l-2 justify-center border-gray-400 border-opacity-0 hover:border-codeFlow w-full hover:text-codeFlow cursor-pointer transition-all"
+                        }
+                    >
+                        <span className="text-xl"><MdLocalLibrary/></span>Explore
                     </NavLink>
                 </div>
                 <div className="text-gray-600 text-xs">

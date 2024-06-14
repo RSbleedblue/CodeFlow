@@ -1,9 +1,9 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from "@material-tailwind/react";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import codeFlow from '../../../assets/Codeflow.png'; 
+import codeFlow from '../../../assets/Codeflow.png';
 import { auth } from "../../utils/Firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,9 @@ import { changeEmail, changeOption } from "../../Redux/Slices/UserSlice";
 const LoginPage = () => {
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
+    const [openReset, setOpenReset] = useState(false);
+    const [resetEmail, setResetEmail] = useState("");
+    const [showWarning, setShowWarning] = useState(false);
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const navigate = useNavigate();
@@ -20,6 +23,29 @@ const LoginPage = () => {
     useEffect(() => {
         sessionStorage.setItem("isLoggedIn", isLoggedIn);
     }, [isLoggedIn]);
+
+    const handleResetPassword = async () => {
+        if (!resetEmail) {
+            setShowWarning(true);
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, resetEmail);
+            toast.success("Password reset email sent!", {
+                icon: <img src={codeFlow} alt="Success" className="w-6 h-6" />,
+                theme: 'dark',
+            });
+            setOpenReset(false); 
+            setShowWarning(false);
+        } catch (error) {
+            toast.error(`Error: ${error.message}`, { theme: 'dark' });
+        }
+    }
+
+    const handleOpen = () => {
+        setOpenReset(!openReset);
+        setShowWarning(false);
+    }
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -115,7 +141,59 @@ const LoginPage = () => {
                         LogIn
                     </Button>
                 </form>
+                <div>
+                    <p className="text-sm flex gap-2">Forgot password?<span className="text-codeFlow cursor-pointer" onClick={handleOpen}>Reset</span></p>
+                </div>
             </div>
+            <Dialog open={openReset} size="xs" handler={handleOpen}>
+                <div className="flex items-center justify-between">
+                    <DialogHeader className="flex flex-col items-start">
+                        <Typography className="mb-1" variant="h4">
+                            Reset Password
+                        </Typography>
+                    </DialogHeader>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="mr-3 h-5 w-5 cursor-pointer"
+                        onClick={handleOpen}
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
+                </div>
+                <DialogBody color="black">
+                    <Typography className="mb-10 -mt-7" color="gray" variant="lead">
+                        Enter your email address to reset your password.
+                    </Typography>
+                    <div className="grid gap-6">
+                        <Input
+                            label="Email"
+                            value={resetEmail}
+                            onChange={(e) => setResetEmail(e.target.value)}
+                        />
+                    </div>
+                    {
+                        showWarning && (
+                            <Typography color="red" className="mt-4 ml-2 text-sm">
+                                Email Missing!
+                            </Typography>
+                        )
+                    }
+                </DialogBody>
+                <DialogFooter className="space-x-2">
+                    <Button variant="text" color="gray" onClick={handleOpen}>
+                        Cancel
+                    </Button>
+                    <Button variant="gradient" color="black" onClick={handleResetPassword}>
+                        Reset Password
+                    </Button>
+                </DialogFooter>
+            </Dialog>
             <ToastContainer />
         </>
     );
