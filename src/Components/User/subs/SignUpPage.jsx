@@ -11,6 +11,7 @@ import { loginSelected } from "../../Redux/Slices/LoginSlice";
 const SignUpPage = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const dispatch = useDispatch();
 
@@ -45,6 +46,10 @@ const SignUpPage = () => {
             toast.dark("Password must be at least 8 characters", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
             return;
         }
+        if (password !== confirmPassword) {
+            toast.dark("Passwords do not match", { icon: <img src={codeFlow} alt="Error" className="w-10 h-6" /> });
+            return;
+        }
 
         toast.promise(
             createUserWithEmailAndPassword(auth, email, password),
@@ -76,7 +81,7 @@ const SignUpPage = () => {
 
     return (
         <>
-            <div className="text-white mt-[20%] flex flex-col gap-10 w-[40%]">
+            <div className="text-white mt-[10%] flex flex-col gap-10 w-[40%]">
                 <form onSubmit={handleSignUp} className="flex flex-col gap-10">
                     <Input
                         variant="standard"
@@ -98,7 +103,7 @@ const SignUpPage = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <div>
+                    <div className="flex flex-col gap-10">
                         <Input
                             variant="standard"
                             type="password"
@@ -108,6 +113,16 @@ const SignUpPage = () => {
                             size="100%"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <Input
+                            variant="standard"
+                            type="password"
+                            label="Confirm Password"
+                            className="text-white::placeholder opacity-50 text-3xl"
+                            color="white"
+                            size="100%"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <Typography
                             variant="small"
@@ -128,6 +143,7 @@ const SignUpPage = () => {
                             </svg>
                             Use at least 8 characters.
                         </Typography>
+                       
                         <Button
                             variant="text"
                             className="rounded-full text-white border border-solid mt-4 w-full"
